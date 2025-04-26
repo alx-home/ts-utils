@@ -9,17 +9,15 @@ export const useResize = (): [Dim | undefined, (_value: HTMLElement | null) => v
 
    useEffect(() => {
       const obj = ref.current;
-      let observer: ResizeObserver | undefined;
       if (obj) {
-         observer = new ResizeObserver(() => {
+         const observer = new ResizeObserver(() => {
             const { width, height } = obj.getBoundingClientRect();
             setDimensions({ width: Math.round(width), height: Math.round(height) });
          });
 
          observer.observe(obj);
+         return () => observer?.unobserve(obj);
       }
-
-      return () => observer?.unobserve(obj!);
    }, [ref]);
 
    return [dimensions, setRef];
