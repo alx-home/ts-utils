@@ -3,8 +3,21 @@
   "version": "1.0.0",
   "license": "GPL-3.0-only",
   "type": "module",
+  "main": "ts-utils.umd.cjs",
+  "module": "ts-utils.js",
+  "types": "src/main.d.ts",
+  "exports": {
+    ".": {
+      "import": "./ts-utils.js",
+      "require": "./ts-utils.umd.cjs"
+    },
+    "./*.css": {
+      "import": "./*.css",
+      "require": "./*.css"
+    }
+  },
   "files": [
-    "dist"
+    "../../build/ts-utils/dist"
   ],
   "author": "alex-home",
   "scripts": {
@@ -17,44 +30,43 @@
   "dependencies": {
     "js-sha512": "0.9.0",
     "lightningcss": "1.29.3",
-    "react": "19.0.0",
-    "react-dom": "19.0.0"
+    "react": "19.1.0",
+    "react-dom": "19.1.0"
   },
   "devDependencies": {
     "@csstools/postcss-cascade-layers": "5.0.1",
-    "@eslint/compat": "1.2.7",
-    "@eslint/eslintrc": "3.3.0",
-    "@eslint/js": "9.22.0",
+    "@eslint/compat": "1.2.8",
+    "@eslint/eslintrc": "3.3.1",
+    "@eslint/js": "9.25.1",
     "@rollup/plugin-babel": "6.0.4",
-    "@tailwindcss/container-queries": "^0.1.1",
-    "@types/node": "22.13.10",
-    "@types/react": "19.0.11",
-    "@types/react-dom": "19.0.4",
-    "@typescript-eslint/eslint-plugin": "8.26.1",
-    "@typescript-eslint/parser": "8.26.1",
-    "@vitejs/plugin-react": "4.3.4",
+    "@tailwindcss/container-queries": "0.1.1",
+    "@types/node": "22.15.2",
+    "@types/react": "19.1.2",
+    "@types/react-dom": "19.1.2",
+    "@typescript-eslint/eslint-plugin": "8.31.0",
+    "@typescript-eslint/parser": "8.31.0",
+    "@vitejs/plugin-react": "4.4.1",
     "autoprefixer": "10.4.21",
     "dotenv-cli": "8.0.0",
-    "eslint": "9.22.0",
-    "eslint-config-prettier": "10.1.1",
-    "eslint-import-resolver-typescript": "4.2.1",
+    "eslint": "9.25.1",
+    "eslint-config-prettier": "10.1.2",
+    "eslint-import-resolver-typescript": "4.3.4",
     "eslint-plugin-import": "2.31.0",
     "eslint-plugin-jsx-a11y": "6.10.2",
-    "eslint-plugin-react": "7.37.4",
+    "eslint-plugin-react": "7.37.5",
     "eslint-plugin-react-hooks": "5.2.0",
-    "eslint-plugin-react-refresh": "0.4.19",
+    "eslint-plugin-react-refresh": "0.4.20",
     "globals": "16.0.0",
     "npm-watch": "0.13.0",
     "postcss": "8.5.3",
     "tailwindcss": "^3.4.17",
     "tsx": "4.19.3",
-    "typescript": "5.8.2",
-    "typescript-eslint": "8.26.1",
-    "vite": "6.2.2",
-    "vite-plugin-css-injected-by-js": "3.5.2",
+    "typescript": "5.8.3",
+    "typescript-eslint": "8.31.0",
+    "vite": "6.3.3",
     "vite-plugin-dts": "4.5.3",
     "vite-plugin-eslint": "1.8.1",
-    "vite-plugin-lib-inject-css": "2.2.1"
+    "vite-plugin-static-copy": "2.3.1"
   },
   "browserslist": [
     "defaults and fully supports es6-module",

@@ -19,7 +19,7 @@ export function Select<Id>({ children, className, active, disabled, value, onCha
    const [open, setOpen] = useState(false);
    const elemRef = useRef<HTMLButtonElement | null>(null);
    const arrowRef = useRef<HTMLButtonElement | null>(null);
-   const style = useMemo(() => "bg-gray-700 shadow-md flex flex-col rounded-sm border-2 border-gray-900"
+   const style = useMemo(() => "bg-gray-700 shadow-md flex flex-col rounded-sm border-gray-900"
       + ((disabled ?? false) ? ' opacity-30' : ' group-hocus:bg-gray-800 group-hocus:drop-shadow-xl group-hocus:border-msfs group-has-[:focus]:border-msfs group-has-[:hover]:border-msfs cursor-pointer'), [disabled]);
 
    const childs = useMemo(() =>
@@ -81,7 +81,7 @@ export function Select<Id>({ children, className, active, disabled, value, onCha
       }
    }, [open, optionsRef, preventDefault]);
 
-   const options = useCallback((optionsRef?: RefObject<HTMLButtonElement | null>[]) => <div className={'flex flex-col p-2 ' + style + ' rounded-t-none border-t-0 '}>{
+   const options = useCallback((optionsRef?: RefObject<HTMLButtonElement | null>[]) => <div className={'flex flex-col p-2 border-2 ' + style + ' rounded-t-none border-t-0 '}>{
       childs.map((child, index) =>
          <button key={child.props.id as string}
             ref={optionsRef?.[index]}
@@ -130,7 +130,7 @@ export function Select<Id>({ children, className, active, disabled, value, onCha
                onKeyUp={onKey}
                onKeyDown={preventDefault}
                disabled={(disabled ?? false) || !(active ?? true)}
-               className={'grow ' + style + ' border-r-0 rounded-r-none' + (open ? ' rounded-b-none' : '')}>
+               className={'grow border-y-2 border-l-2 ' + style + ' border-r-0 rounded-r-none' + (open ? ' rounded-b-none' : '')}>
                <div className={'line-clamp-1 w-[100%] overflow-ellipsis text-xl font-semibold text-white ' + (className ?? "")} >
                   <div className='grow'>{labels.get(value)}</div>
                </div>
@@ -150,7 +150,7 @@ export function Select<Id>({ children, className, active, disabled, value, onCha
             tabIndex={-1}
             ref={arrowRef}
             onClick={focus}
-            className={'border-l-0 rounded-l-none ' + style + (open ? ' rounded-b-none' : '')}>
+            className={'rounded-l-none border-y-2 border-r-2 ' + style + (open ? ' rounded-b-none' : '')}>
             <img src={arrowImg} alt="arrow" width={20}
                className={'transition-all m-auto' +
                   (open ? ' -rotate-90' : '')} />

@@ -22,10 +22,10 @@ export const Input = ({ className, active, placeholder, pattern, type, inputMode
    onValidate?: (_value: string) => void,
    ref?: RefObject<HTMLInputElement | null>
 }>) => {
-   const [valid, _setValid] = useState(true);
+   const [valid, setValid] = useState(true);
    const endSlots = useMemo(() => Children.toArray(children).filter(child => isValidElement(child) && child.type === EndSlot), [children]);
-   const setValid = useCallback((value: boolean) => {
-      _setValid(value);
+   const _setValid = useCallback((value: boolean) => {
+      setValid(value);
       setIsValid?.(value);
    }, [setIsValid]);
 
@@ -35,22 +35,22 @@ export const Input = ({ className, active, placeholder, pattern, type, inputMode
    useEffect(() => {
       if (reset) {
          if (ref.current) {
-            setValid(true);
+            _setValid(true);
             ref.current.value = "";
          }
          onChange?.(defaultValue ?? "");
       }
-   }, [reset, ref, onChange, defaultValue, setValid]);
+   }, [reset, ref, onChange, defaultValue, _setValid]);
 
    useEffect(() => {
       if (reload && value) {
          if (ref.current) {
-            setValid(true);
-            ref.current!.value = value;
+            _setValid(true);
+            ref.current.value = value;
          }
          onChange?.(value);
       }
-   }, [reset, ref, onChange, defaultValue, reload, value, setValid]);
+   }, [reset, ref, onChange, defaultValue, reload, value, _setValid]);
 
    useEffect(() => {
       if (value) {
@@ -66,11 +66,11 @@ export const Input = ({ className, active, placeholder, pattern, type, inputMode
 
    const onChangeC = useCallback(async (e: ChangeEvent<HTMLInputElement>) => {
       const valid = (await validate?.(e.target.value, false)) ?? true;
-      setValid(valid)
+      _setValid(valid)
       if (valid) {
          onChange?.(e.target.value);
       }
-   }, [onChange, setValid, validate]);
+   }, [onChange, _setValid, validate]);
 
    return <div className={"overflow-hidden grow bg-gray-700 shadow-md flex text-left text-white rounded-sm border-2 border-gray-900 " + (className ?? "")
       + (active ? ' hocus:bg-gray-800 hocus:drop-shadow-xl hocus:border-msfs has-[:focus]:border-msfs has-[:hover]:border-msfs' : ' opacity-30')

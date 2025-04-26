@@ -1,17 +1,19 @@
 import { UserConfig, build, createServer } from "vite";
 import eslint from 'vite-plugin-eslint';
 import react from '@vitejs/plugin-react'
-import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
 import path from "path";
 import { fileURLToPath } from "url";
 import tailwindcss from "tailwindcss";
 import autoprefixer from "autoprefixer";
+import dts from 'vite-plugin-dts';
+import { viteStaticCopy } from 'vite-plugin-static-copy'
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const minify = true;
 const webBrowserTest = process.env.WEB_BROWSER_TEST;
+const outputDir = process.env.OUTPUT_DIR;
 
 const Config: UserConfig = {
    mode: process.env.BUILD_TYPE,
@@ -25,11 +27,17 @@ const Config: UserConfig = {
       },
       minify: minify,
       rollupOptions: {
+         external: ['react', 'react-dom', 'styled-components'],
          output: {
-            manualChunks: undefined
+            manualChunks: undefined,
+            globals: {
+               react: 'React',
+               'react-dom': 'ReactDOM',
+               'styled-components': 'styled',
+            },
          },
       },
-      outDir: "../../build/ts-utils/dist",
+      outDir: outputDir,
       ssr: false,
       sourcemap: process.env.BUILD_TYPE === 'development',
       emptyOutDir: true,
@@ -52,8 +60,30 @@ const Config: UserConfig = {
    },
    plugins: [
       react(),
-      cssInjectedByJsPlugin(),
       eslint(),
+      dts({
+         insertTypesEntry: true,
+      }),
+      viteStaticCopy({
+         targets: [
+            {
+               src: 'package.json',
+               dest: './'
+            },
+            {
+               src: 'src/global.css',
+               dest: './'
+            },
+            {
+               src: 'src/images/*',
+               dest: './images/'
+            },
+            {
+               src: 'src/fonts/*',
+               dest: './fonts/'
+            }
+         ]
+      })
    ],
    css: {
       postcss: {
