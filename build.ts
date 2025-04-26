@@ -23,7 +23,10 @@ const Config: UserConfig = {
    build: {
       lib: {
          name: 'alx-home@ts-utils',
-         entry: path.resolve(__dirname, './src/main.tsx'),
+         entry: [
+            path.resolve(__dirname, './src/main.tsx'),
+            path.resolve(__dirname, './tailwind.config.ts')
+         ],
       },
       minify: minify,
       rollupOptions: {

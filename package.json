@@ -3,17 +3,27 @@
   "version": "1.0.0",
   "license": "GPL-3.0-only",
   "type": "module",
-  "main": "ts-utils.umd.cjs",
-  "module": "ts-utils.js",
-  "types": "src/main.d.ts",
+  "main": "main.cjs",
+  "module": "main.js",
+  "types": "./main.d.ts",
   "exports": {
     ".": {
-      "import": "./ts-utils.js",
-      "require": "./ts-utils.umd.cjs"
+      "import": "./main.js",
+      "require": "./main.cjs",
+      "types": {
+        "default": "./main.d.ts"
+      }
     },
     "./*.css": {
       "import": "./*.css",
       "require": "./*.css"
+    },
+    "./tailwind": {
+      "types": {
+        "default": "./tailwind.config.d.ts"
+      },
+      "import": "./tailwind.config.js",
+      "require": "./tailwind.config.cjs"
     }
   },
   "files": [

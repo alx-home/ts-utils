@@ -13,9 +13,14 @@ file(GLOB_RECURSE ASSETS
 )
 
 set(DEPS 
-   ${CMAKE_CURRENT_BINARY_DIR}/dist/package.json 
-   ${CMAKE_CURRENT_BINARY_DIR}/dist/ts-utils.js 
-   ${CMAKE_CURRENT_BINARY_DIR}/dist/ts-utils.umd.cjs
+   ${CMAKE_CURRENT_BINARY_DIR}/dist/package.json
+   ${CMAKE_CURRENT_BINARY_DIR}/dist/global.css
+   ${CMAKE_CURRENT_BINARY_DIR}/dist/main.d.ts 
+   ${CMAKE_CURRENT_BINARY_DIR}/dist/main.js 
+   ${CMAKE_CURRENT_BINARY_DIR}/dist/main.cjs
+   ${CMAKE_CURRENT_BINARY_DIR}/dist/tailwind.config.d.ts 
+   ${CMAKE_CURRENT_BINARY_DIR}/dist/tailwind.config.js 
+   ${CMAKE_CURRENT_BINARY_DIR}/dist/tailwind.config.cjs
 )
 
 add_custom_command(

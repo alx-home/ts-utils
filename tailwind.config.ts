@@ -13,10 +13,17 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      'shadow-opacities': {
+        '0': 'transparent',
+        '1/4': '.25',
+        '1/2': '.5',
+        '3/4': '.75',
+        '1': '1'
+      }
     },
   },
   plugins: [
-    ({ addVariant }: PluginAPI) => {
+    ({ addVariant, matchUtilities, theme }: PluginAPI) => {
       addVariant('hocus', ['&:hover', '&:focus']);
       addVariant('hocus-within', ['&:hover', '&:focus-within']);
       addVariant('group-hocus', [
@@ -35,6 +42,14 @@ export default {
         ':merge(.peer):hover ~ &',
         ':merge(.peer):focus-within ~ &'
       ]);
+      matchUtilities(
+        {
+          'shadow-opacity': (value) => ({
+            '--tw-shadow-opacity': value
+          }),
+        },
+        { values: theme('shadow-opacities') }
+      )
     },
     container_queries
   ],
