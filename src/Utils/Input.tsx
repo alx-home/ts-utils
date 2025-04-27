@@ -43,7 +43,7 @@ export const Input = ({ className, active, placeholder, pattern, type, inputMode
    }, [reset, ref, onChange, defaultValue, _setValid]);
 
    useEffect(() => {
-      if (reload && value) {
+      if (reload && (value !== undefined)) {
          if (ref.current) {
             _setValid(true);
             ref.current.value = value;
@@ -53,7 +53,7 @@ export const Input = ({ className, active, placeholder, pattern, type, inputMode
    }, [reset, ref, onChange, defaultValue, reload, value, _setValid]);
 
    useEffect(() => {
-      if (value) {
+      if (value != undefined) {
          ref.current!.value = value
       }
    }, [ref, value]);
