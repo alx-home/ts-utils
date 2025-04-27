@@ -81,26 +81,27 @@ export function Select<Id>({ children, className, active, disabled, value, onCha
       }
    }, [open, optionsRef, preventDefault]);
 
-   const options = useCallback((optionsRef?: RefObject<HTMLButtonElement | null>[]) => <div className={'flex flex-col p-2 border-2 ' + style + ' rounded-t-none border-t-0 '}>{
-      childs.map((child, index) =>
-         <button key={child.props.id as string}
-            ref={optionsRef?.[index]}
-            className='my-1 py-1 px-2 border-2 border-transparent hocus:border-msfs'
-            onClick={() => {
-               elemRef.current?.focus()
-               onChange(child.props.id)
-               setOpen(false)
-            }}
-            onMouseUp={() => {
-               elemRef.current?.blur()
-            }}
-            onBlur={onBlur}
-            onKeyDown={preventDefault}
-            onKeyUp={onKey}
-         >
-            {child}
-         </button>)
-   }</div>, [style, childs, onBlur, preventDefault, onKey, onChange]);
+   const options = useCallback((optionsRef?: RefObject<HTMLButtonElement | null>[]) =>
+      <div className={'flex flex-col p-2 border-x-2 border-b-2 ' + style + ' rounded-t-none '}>{
+         childs.map((child, index) =>
+            <button key={child.props.id as string}
+               ref={optionsRef?.[index]}
+               className='my-1 py-1 px-2 border-2 border-transparent hocus:border-msfs'
+               onClick={() => {
+                  elemRef.current?.focus()
+                  onChange(child.props.id)
+                  setOpen(false)
+               }}
+               onMouseUp={() => {
+                  elemRef.current?.blur()
+               }}
+               onBlur={onBlur}
+               onKeyDown={preventDefault}
+               onKeyUp={onKey}
+            >
+               {child}
+            </button>)
+      }</div>, [style, childs, onBlur, preventDefault, onKey, onChange]);
 
    const labels = useMemo(() => childs.reduce((result, child) => {
       result.set(child.props.id, child.props.children);
@@ -137,7 +138,7 @@ export function Select<Id>({ children, className, active, disabled, value, onCha
             </button>
             <div className='relative overflow-visible'>
                <div className='absolute'>
-                  <div inert={!open} className={'overflow-hidden w-[calc(100%+22px)] duration-300 transition-opacity' + (open ? ' h-full' : ' max-h-0 opacity-0 pointer-events-none')}>
+                  <div inert={!open} className={'relative z-50 overflow-hidden w-[calc(100%+22px)] duration-300 transition-opacity' + (open ? ' h-full' : ' max-h-0 opacity-0 pointer-events-none')}>
                      {options(optionsRef)}
                   </div>
                </div>
