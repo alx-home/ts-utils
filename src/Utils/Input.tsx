@@ -5,9 +5,10 @@ export const EndSlot = ({ children }: PropsWithChildren) => {
    return children
 }
 
-export const Input = ({ className, active, placeholder, pattern, type, inputMode, validate, value, defaultValue, reset, onChange, onValidate, setIsValid, ref: parentRef, children, reload }: PropsWithChildren<{
+export const Input = ({ inputClass, className, active, placeholder, pattern, type, inputMode, validate, value, defaultValue, reset, onChange, onValidate, setIsValid, ref: parentRef, children, reload }: PropsWithChildren<{
    active: boolean,
    className?: string,
+   inputClass?: string,
    placeholder?: string,
    pattern?: string,
    inputMode?: "email" | "search" | "tel" | "text" | "url" | "none" | "numeric" | "decimal",
@@ -75,8 +76,8 @@ export const Input = ({ className, active, placeholder, pattern, type, inputMode
    return <div className={"overflow-hidden grow bg-gray-700 shadow-md flex text-left text-white rounded-sm border-2 border-gray-900 " + (className ?? "")
       + (active ? ' hocus:bg-gray-800 hocus:drop-shadow-xl hocus:border-msfs has-[:focus]:border-msfs has-[:hover]:border-msfs' : ' opacity-30')
       + (valid ? '' : ' invalid')}>
-      <div className='flex flex-row p-1 px-4 grow min-w-0'>
-         <input ref={ref} type={type} className={'grow flex overflow-hidden bg-transparent ' + (valid ? '' : ' invalid')} disabled={!active} placeholder={placeholder} inputMode={inputMode} pattern={pattern}
+      <div className='flex flex-row grow min-w-0 py-1 px-2'>
+         <input ref={ref} type={type} className={'grow flex max-w-full bg-transparent ' + (inputClass ?? "") + (valid ? '' : ' invalid')} disabled={!active} placeholder={placeholder} inputMode={inputMode} pattern={pattern}
             onChange={onChangeC}
             onKeyUp={onKeyUp}
          />
