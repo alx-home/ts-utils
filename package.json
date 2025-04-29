@@ -1,7 +1,7 @@
 {
   "name": "@alx-home/ts-utils",
   "version": "1.0.0",
-  "license": "GPL-3.0-only",
+  "license": "MIT",
   "type": "module",
   "main": "main.cjs",
   "module": "main.js",
