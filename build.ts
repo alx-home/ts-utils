@@ -30,6 +30,7 @@ import { fileURLToPath } from "url";
 import tailwindcss from "tailwindcss";
 import autoprefixer from "autoprefixer";
 import dts from 'vite-plugin-dts';
+import svgr from 'vite-plugin-svgr';
 import { viteStaticCopy } from 'vite-plugin-static-copy'
 
 const __filename = fileURLToPath(import.meta.url);
@@ -91,6 +92,7 @@ const Config: UserConfig = {
       dts({
          insertTypesEntry: true,
       }),
+      svgr(),
       viteStaticCopy({
          targets: [
             {
@@ -108,6 +110,10 @@ const Config: UserConfig = {
             {
                src: 'src/fonts/*',
                dest: './fonts/'
+            },
+            {
+               src: 'src/*.d.ts',
+               dest: './'
             }
          ]
       })

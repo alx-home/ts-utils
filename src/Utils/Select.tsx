@@ -24,7 +24,7 @@ SOFTWARE.
 
 import { PropsWithChildren, useRef, useMemo, Children, isValidElement, useState, ReactElement, useCallback, KeyboardEvent, ReactNode, RefObject, FocusEvent, useEffect } from 'react';
 
-import arrowImg from '@images/arrow.svg';
+import Arrow from '@images/arrow.svg?react';
 
 type OptionProps<Id> = PropsWithChildren<{
    id: Id
@@ -175,10 +175,8 @@ export function Select<Id>({ children, className, active, disabled, value, onCha
             tabIndex={-1}
             ref={arrowRef}
             onClick={focus}
-            className={'rounded-l-none border-y-2 border-r-2 ' + style + (open ? ' rounded-b-none' : '')}>
-            <img src={arrowImg} alt="arrow" width={20}
-               className={'transition-all m-auto' +
-                  (open ? ' -rotate-90' : '')} />
+            className={'rounded-l-none border-y-2 border-r-2 ' + style + " shadow-none" + (open ? ' rounded-b-none' : '')}>
+            <Arrow width={20} height={15} className={'transition-all m-auto' + (open ? ' -rotate-90' : '')} />
          </button>
       </div>
    </div>;

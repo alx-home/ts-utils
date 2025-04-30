@@ -55,6 +55,7 @@ SOFTWARE.
       "isolatedModules": true,
       // "jsx": "preserve",
       "incremental": true,
+      "types": ["vite/client", "node"],
       "experimentalDecorators": true /* Enable experimental support for TC39 stage 2 draft decorators. */,
       "paths": {
          "@fonts/*": ["./src/fonts/*"],

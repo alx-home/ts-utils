@@ -22,8 +22,4 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-declare module '*.jpg';
-declare module '*.svg';
-declare module '*.css';
 declare module '*.ttf';
-declare module '*.pdf';

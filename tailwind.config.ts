@@ -25,7 +25,7 @@ SOFTWARE.
 import type { Config } from "tailwindcss";
 import container_queries from '@tailwindcss/container-queries';
 
-import { PluginAPI } from "tailwindcss/types/config";
+import { KeyValuePair, PluginAPI } from "tailwindcss/types/config";
 
 export default {
   content: [
@@ -35,14 +35,14 @@ export default {
     extend: {
       colors: {
         background: "var(--background)",
-        foreground: "var(--foreground)",
+        foreground: "var(--foreground)"
       },
-      'shadow-opacities': {
-        '0': 'transparent',
-        '1/4': '.25',
-        '1/2': '.5',
-        '3/4': '.75',
-        '1': '1'
+      boxShadow: {
+        'sm': '0 1px 2px 0 var(--tw-shadow-color)',
+        'md': '0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color)',
+        'lg': '0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color)',
+        'xl': '0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color)',
+        '2xl': '0 25px 50px -12px var(--tw-shadow-color)',
       }
     },
   },
@@ -68,11 +68,17 @@ export default {
       ]);
       matchUtilities(
         {
-          'shadow-opacity': (value) => ({
-            '--tw-shadow-opacity': value
+          'shadow-color': (value) => ({
+            '--tw-shadow-color': value
           }),
         },
-        { values: theme('shadow-opacities') }
+        {
+          values: {
+            ...theme('colors'),
+            default: "rgb(2,6,23)"
+          } as KeyValuePair,
+          type: 'color'
+        }
       )
     },
     container_queries

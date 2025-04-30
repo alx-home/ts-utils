@@ -79,12 +79,11 @@ SOFTWARE.
    --tw-ring-offset-width: 0px;
    --tw-ring-offset-color: #fff;
    --tw-ring-color: rgb(59 130 246 / .5);
-   --tw-shadow-opacity: 1.0;
+   --tw-shadow-opacity: 0.20;
    --tw-ring-offset-shadow: 0 0 rgb(0 0 0 / var(--tw-shadow-opacity));
    --tw-ring-shadow: 0 0 rgb(0 0 0 / var(--tw-shadow-opacity));
    --tw-shadow-colored: 0 0 rgb(0 0 0 / var(--tw-shadow-opacity));
    --tw-shadow-color: rgb(2 6 23 / var(--tw-shadow-opacity));
-   --tw-shadow: var(--tw-shadow-colored);
 }
 
 *:focus {
@@ -131,6 +130,12 @@ html {
 
 body>div {
    height: 100%;
+}
+
+@layer base {
+   :root {
+      --tw-shadow-color: 0 0 0;
+   }
 }
 
 @layer utilities {

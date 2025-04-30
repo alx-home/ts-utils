@@ -24,6 +24,33 @@
       },
       "import": "./tailwind.config.js",
       "require": "./tailwind.config.cjs"
+    },
+    "./images": {
+      "types": {
+        "default": "./images.d.ts"
+      }
+    },
+    "./images/*": {
+      "import": "./images/*",
+      "require": "./images/*"
+    },
+    "./images/*?react": {
+      "import": "./images/*",
+      "require": "./images/*"
+    },
+    "./fonts": {
+      "types": {
+        "default": "./fonts.d.ts"
+      }
+    },
+    "./fonts/*": {
+      "import": "./fonts/*",
+      "require": "./fonts/*"
+    },
+    "./pdf": {
+      "types": {
+        "default": "./pdf.d.ts"
+      }
     }
   },
   "files": [
@@ -76,7 +103,8 @@
     "vite": "6.3.3",
     "vite-plugin-dts": "4.5.3",
     "vite-plugin-eslint": "1.8.1",
-    "vite-plugin-static-copy": "2.3.1"
+    "vite-plugin-static-copy": "2.3.1",
+    "vite-plugin-svgr": "^4.3.0"
   },
   "browserslist": [
     "defaults and fully supports es6-module",
