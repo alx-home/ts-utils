@@ -146,8 +146,8 @@ export function Select<Id>({ children, className, active, disabled, value, onCha
       }
    }, [labels, open, optionsRef, value]);
 
-   return <div className={"group grow"}>
-      <div className='flex flex-row'>
+   return <div className={"flex group grow " + (className ?? "")}>
+      <div className='flex flex-row grow'>
          <div className='flex flex-col grow [&>:first-child]:p-1 '>
             <button ref={elemRef}
                onClick={toggle}
@@ -156,13 +156,13 @@ export function Select<Id>({ children, className, active, disabled, value, onCha
                onKeyDown={preventDefault}
                disabled={(disabled ?? false) || !(active ?? true)}
                className={'grow border-y-2 border-l-2 ' + style + ' border-r-0 rounded-r-none' + (open ? ' rounded-b-none' : '')}>
-               <div className={'line-clamp-1 w-[100%] overflow-ellipsis text-xl font-semibold text-white ' + (className ?? "")} >
+               <div className={'line-clamp-1 w-[100%] overflow-ellipsis text-xl font-semibold text-white text-center '} >
                   <div className='grow'>{labels.get(value)}</div>
                </div>
             </button>
-            <div className='relative overflow-visible'>
-               <div className='absolute'>
-                  <div inert={!open} className={'relative z-50 overflow-hidden w-[calc(100%+22px)] duration-300 transition-opacity' + (open ? ' h-full' : ' max-h-0 opacity-0 pointer-events-none')}>
+            <div className='relative w-[calc(100%+22px)] overflow-visible'>
+               <div className='absolute w-full'>
+                  <div inert={!open} className={'relative z-50 overflow-hidden w-full duration-300 transition-opacity' + (open ? ' h-full' : ' max-h-0 opacity-0 pointer-events-none')}>
                      {options(optionsRef)}
                   </div>
                </div>
