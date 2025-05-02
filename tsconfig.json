@@ -70,7 +70,7 @@ SOFTWARE.
       //   }
       // ]
    },
-   "include": ["src/**/*.ts", "src/**/*.tsx", "tailwind.config.ts"],
+   "include": ["src/**/*.ts", "src/**/*.tsx"],
    "exclude": ["node_modules", "dist", "tsconfig.json"],
    "ts-node": {
       // "transpileOnly": true,
