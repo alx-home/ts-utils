@@ -181,3 +181,5 @@ export function Select<Id>({ children, className, active, disabled, value, onCha
       </div>
    </div>;
 };
+
+export default Select;

@@ -22,8 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import useMouseMove from '@Events/MouseMove';
-import useMouseRelease from '@Events/MouseRelease';
+import { useMouseRelease, useMouseMove } from '@Events';
 import {
    // useMemo,
    useEffect, useState,

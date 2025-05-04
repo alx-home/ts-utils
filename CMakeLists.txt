@@ -2,38 +2,34 @@ cmake_minimum_required(VERSION 3.20)
 
 project(alx-home_ts_utils_)
 
-file(GLOB_RECURSE ASSETS 
+file(GLOB_RECURSE DEPS LIST_DIRECTORIES false CONFIGURE_DEPENDS
    ${CMAKE_CURRENT_SOURCE_DIR}/src/*
-   ${CMAKE_CURRENT_SOURCE_DIR}/.env.*
+)
+
+list(APPEND DEPS
+   ${CMAKE_CURRENT_SOURCE_DIR}/.env.development
+   ${CMAKE_CURRENT_SOURCE_DIR}/.env.production
    ${CMAKE_CURRENT_SOURCE_DIR}/build.ts
-   ${CMAKE_CURRENT_SOURCE_DIR}/index.html
+   ${CMAKE_CURRENT_SOURCE_DIR}/build_template.ts
    ${CMAKE_CURRENT_SOURCE_DIR}/package.json
    ${CMAKE_CURRENT_SOURCE_DIR}/tailwind.config.ts
    ${CMAKE_CURRENT_SOURCE_DIR}/tsconfig.json
 )
 
-set(DEPS 
-   ${CMAKE_CURRENT_BINARY_DIR}/dist/package.json
-   ${CMAKE_CURRENT_BINARY_DIR}/dist/global.css
-   ${CMAKE_CURRENT_BINARY_DIR}/dist/main.d.ts 
-   ${CMAKE_CURRENT_BINARY_DIR}/dist/main.js 
-   ${CMAKE_CURRENT_BINARY_DIR}/dist/main.cjs
-   ${CMAKE_CURRENT_BINARY_DIR}/dist/tailwind.config.d.ts 
-   ${CMAKE_CURRENT_BINARY_DIR}/dist/tailwind.config.js 
-   ${CMAKE_CURRENT_BINARY_DIR}/dist/tailwind.config.cjs
-)
+find_program(NPM npm)
 
 add_custom_command(
-   OUTPUT ${DEPS}
-   DEPENDS ${ASSETS}
+   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/dist/main.js
+   DEPENDS ${DEPS}
    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-   COMMAND "${CMAKE_COMMAND}" -E env OUTPUT_DIR=${CMAKE_CURRENT_BINARY_DIR}/dist npm.cmd run build
+   COMMAND NPM run "build$<$<CONFIG:DEBUG>:\:dev>"
+   COMMENT "alx-home_ts_utils: Running NPM run build$<$<CONFIG:DEBUG>:\:dev>"
 )
 
 add_custom_target(alx-home_ts_utils
-   DEPENDS ${DEPS}
+   DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/dist/main.js
 )
 
 set_target_properties(alx-home_ts_utils PROPERTIES
-   DEPS "${DEPS}"
+   DEPS ${CMAKE_CURRENT_BINARY_DIR}/dist/main.js
 )

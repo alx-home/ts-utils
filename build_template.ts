@@ -22,27 +22,53 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import { AliasOptions, PluginOption, UserConfig } from "vite";
-import eslint from 'vite-plugin-eslint';
+import { AliasOptions, BuildEnvironmentOptions, LibraryOptions, Plugin, PluginOption, UserConfig } from "vite";
+import eslint from '@nabla/vite-plugin-eslint';
 import react from '@vitejs/plugin-react'
 import tailwindcss from "tailwindcss";
 import autoprefixer from "autoprefixer";
-import dts from 'vite-plugin-dts';
 import svgr from 'vite-plugin-svgr';
 import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
+import { config } from "dotenv";
+import tsconfigPaths, { PluginOptions } from 'vite-tsconfig-paths';
+
+let dev = false;
+process.argv.forEach(function (val) {
+   if (val == "--dev") {
+      dev = true;
+   }
+});
+
+if (dev) {
+   console.log("Building for development")
+
+   config({
+      path: ".env.development"
+   });
+} else {
+   console.log("Building for production")
+
+   config({
+      path: ".env.production"
+   });
+}
 
 const webBrowserTest = process.env.WEB_BROWSER_TEST;
 const default_output_dir = process.env.OUTPUT_DIR;
 
-export const LibConfig = ({ name, entries, output_dir, empty_out, alias, plugins, minify, sourcemap }: {
+type RollupOptions = Exclude<BuildEnvironmentOptions['rollupOptions'], undefined>;
+
+export const LibConfig = ({ name, rollupOptions, entries, output_dir, empty_out, alias, plugins, minify, sourcemap, target }: {
    name: string,
    output_dir?: string,
-   entries: string[],
+   entries: string[] | LibraryOptions,
    empty_out?: boolean,
+   rollupOptions?: RollupOptions,
    alias?: AliasOptions,
    sourcemap?: boolean
-   plugins?: PluginOption[],
-   minify?: boolean
+   plugins?: Plugin<unknown>[],
+   minify?: boolean,
+   target?: string | false | string[]
 }): UserConfig => ({
    mode: process.env.BUILD_TYPE,
    define: {
@@ -51,9 +77,15 @@ export const LibConfig = ({ name, entries, output_dir, empty_out, alias, plugins
    build: {
       lib: {
          name: name,
-         entry: entries,
+         entry: (Array.isArray(entries) ? entries : []),
+         ...(Array.isArray(entries) ? {} : entries)
       },
-      minify: minify ?? true,
+      minify: minify ?? (process.env.BUILD_TYPE === 'development' ? false : "esbuild"),
+      terserOptions: {
+         compress: {
+            drop_console: process.env.BUILD_TYPE !== 'development'
+         }
+      },
       rollupOptions: {
          external: ['react', 'react-dom', 'styled-components'],
          output: {
@@ -64,7 +96,9 @@ export const LibConfig = ({ name, entries, output_dir, empty_out, alias, plugins
                'styled-components': 'styled',
             },
          },
+         ...rollupOptions
       },
+      target: target,
       outDir: output_dir ?? default_output_dir,
       ssr: false,
       sourcemap: sourcemap ?? process.env.BUILD_TYPE === 'development',
@@ -83,10 +117,9 @@ export const LibConfig = ({ name, entries, output_dir, empty_out, alias, plugins
    plugins: [
       react(),
       eslint(),
-      dts({
-         insertTypesEntry: true,
-      }),
       svgr(),
+      cssInjectedByJsPlugin(),
+      tsconfigPaths(),
       ...(plugins ?? [])
    ] as PluginOption[],
    css: {
@@ -99,20 +132,23 @@ export const LibConfig = ({ name, entries, output_dir, empty_out, alias, plugins
    }
 });
 
-export const AppConfig = ({ output_dir, empty_out, alias, plugins, minify }: {
+export const AppConfig = ({ output_dir, empty_out, plugins, minify, alias, tsconfig, define }: {
    output_dir?: string,
    empty_out?: boolean,
+   plugins?: Plugin<unknown>[],
    alias?: AliasOptions,
-   plugins?: PluginOption[],
-   minify?: boolean
+   define?: Record<string, unknown>,
+   minify?: boolean,
+   tsconfig?: PluginOptions
 }): UserConfig => ({
    mode: process.env.BUILD_TYPE,
    define: {
-      __WEB_BROWSER_TEST__: webBrowserTest
+      __WEB_BROWSER_TEST__: webBrowserTest,
+      ...define
    },
    build: {
       lib: false,
-      minify: minify ?? true,
+      minify: minify ?? (process.env.BUILD_TYPE === 'development' ? false : "esbuild"),
       rollupOptions: {
          output: {
             manualChunks: undefined,
@@ -137,10 +173,8 @@ export const AppConfig = ({ output_dir, empty_out, alias, plugins, minify }: {
       react(),
       cssInjectedByJsPlugin(),
       eslint(),
-      dts({
-         insertTypesEntry: true,
-      }),
       svgr(),
+      tsconfigPaths(tsconfig),
       ...(plugins ?? [])
    ] as PluginOption[],
    css: {
@@ -153,3 +187,4 @@ export const AppConfig = ({ output_dir, empty_out, alias, plugins, minify }: {
    }
 });
 
+export type VitePlugin = Plugin;

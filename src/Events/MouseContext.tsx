@@ -32,7 +32,7 @@ export const MouseContext = createContext<{
    cursorChangeHandler: () => { },
 });
 
-const MouseContextProvider = ({ children }: PropsWithChildren) => {
+export const MouseContextProvider = ({ children }: PropsWithChildren) => {
    const [cursorType, setCursorType] = useState("");
    const provider = useMemo(() => ({
       cursorType: cursorType,

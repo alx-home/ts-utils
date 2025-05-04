@@ -22,10 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import useMouseMove from '@Events/MouseMove';
-import useMouseRelease from '@Events/MouseRelease';
+import { useMouseRelease, useMouseMove, useResize } from '@Events';
 import { PropsWithChildren, useEffect, useState, CSSProperties, useCallback, MouseEvent, forwardRef, useRef, useImperativeHandle, ForwardedRef } from 'react';
-import { useResize } from '@Events/Resize';
 
 type ScrollProps = PropsWithChildren<{
    className?: string,

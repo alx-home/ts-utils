@@ -22,27 +22,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import { useEffect, useState } from "react";
-
-export function useKeyUp() {
-   const [key, setKey] = useState<string | undefined>();
-
-   useEffect(() => {
-      const handleKeyUp = (e: KeyboardEvent) => {
-         setKey(e.key);
-      };
-
-      document.addEventListener('keyup', handleKeyUp);
-      return () => document.removeEventListener('keyup', handleKeyUp);
-   }, []);
-
-   useEffect(() => {
-      if (key) {
-         setKey(undefined);
+{
+   "extends": "./tsconfig.base.json",
+   "compilerOptions": {
+      "baseUrl": ".",
+      "moduleResolution": "nodenext",
+      "module": "NodeNext",
+      "paths": {
+         "@tailwind": ["tailwind.config.ts"],
+         "@build": ["build_template.ts"]
       }
-   }, [key]);
-
-   return key;
+   },
+   "files": ["tailwind.config.ts", "build.ts", "build_template.ts"]
 }
-
-export default useKeyUp;

@@ -23,59 +23,22 @@ SOFTWARE.
 */
 
 {
+   "extends": "./tsconfig.base.json",
+   "references": [{ "path": "./tsconfig.build.json" }],
    "compilerOptions": {
-      "target": "ES2017",
-      "lib": ["dom", "dom.iterable", "esnext"],
-      // "declarationDir": "types",
-      "declaration": false,
-      "sourceMap": false,
-      "declarationMap": false /* Create sourcemaps for d.ts files. */,
-      "removeComments": true,
-      "allowSyntheticDefaultImports": true,
-      /* Bundler mode */
-      "moduleResolution": "node", // Specifies how modules are resolved when bundling.
-      "allowImportingTsExtensions": true, // Allows importing TypeScript files with extensions.
-      "jsx": "preserve", // Configures JSX support for React.
-      /* --- Bundler mode */
-      "allowJs": false,
-      "rootDir": ".",
+      "outDir": "../../build/packages/ts-utils/ts-dist",
       "baseUrl": ".",
-      "skipLibCheck": true,
-      /* Linting */
-      "strict": true,
-      "noUnusedLocals": true,
-      "noUnusedParameters": true,
-      "noFallthroughCasesInSwitch": true,
-      "noUncheckedSideEffectImports": true,
-      "noEmit": true,
-      "esModuleInterop": true,
-      "module": "es6",
-      // "moduleResolution": "node",
-      "resolveJsonModule": true,
-      "isolatedModules": true,
-      // "jsx": "preserve",
-      "incremental": true,
-      "types": ["vite/client", "node"],
-      "experimentalDecorators": true /* Enable experimental support for TC39 stage 2 draft decorators. */,
       "paths": {
+         "@types": ["./types/index.d.ts"],
          "@fonts/*": ["./src/fonts/*"],
          "@images/*": ["./src/images/*"],
-         "@Events/*": ["./src/Events/*"],
-         "@Utils/*": ["./src/Utils/*"]
-      },
-      "forceConsistentCasingInFileNames": true
-      // "plugins": [
-      //   {
-      //     "transform": "Transformer.ts"
-      //   }
-      // ]
-   },
-   "include": ["src/**/*.ts", "src/**/*.tsx"],
-   "exclude": ["node_modules", "dist", "tsconfig.json"],
-   "ts-node": {
-      // "transpileOnly": true,
-      "compilerOptions": {
-         "module": "CommonJS"
+         "@tailwind": ["./tailwind.config.ts"],
+         "@build": ["./build_template.ts"],
+
+         "@Events": ["./src/Events/index.d.ts"],
+         "@Utils": ["./src/Utils/index.d.ts"]
       }
-   }
+   },
+   "exclude": ["node_modules", "dist"],
+   "include": ["src/**/*.ts", "src/**/*.tsx"]
 }

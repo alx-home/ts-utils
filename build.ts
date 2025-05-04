@@ -25,9 +25,8 @@ SOFTWARE.
 import { build } from "vite";
 import path from "path";
 import { fileURLToPath } from "url";
-import { viteStaticCopy } from 'vite-plugin-static-copy'
 
-import { LibConfig } from './build_template';
+import { LibConfig } from '@build';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -39,45 +38,7 @@ const Config = {
       name: 'alx-home@ts-utils',
       entries: [
          path.resolve(__dirname, './src/main.tsx'),
-         path.resolve(__dirname, './tailwind.config.ts'),
       ],
-      alias: {
-         "@Events": path.resolve(__dirname, "./src/Events"),
-         "@fonts": path.resolve(__dirname, "./src/fonts"),
-         "@images": path.resolve(__dirname, "./src/images"),
-         "@polyfills": path.resolve(__dirname, "./src/polyfills"),
-         "@Utils": path.resolve(__dirname, "./src/Utils"),
-      },
-      plugins: [
-         viteStaticCopy({
-            targets: [
-               {
-                  src: 'src/global.css',
-                  dest: './'
-               },
-               {
-                  src: 'src/images/*',
-                  dest: './images/'
-               },
-               {
-                  src: 'src/fonts/*',
-                  dest: './fonts/'
-               },
-               {
-                  src: 'src/*.d.ts',
-                  dest: './'
-               },
-               {
-                  src: 'package.json',
-                  dest: './'
-               },
-               {
-                  src: 'build_template.ts',
-                  dest: './'
-               },
-            ]
-         })
-      ]
    }), ...{
       define: {
          __WEB_BROWSER_TEST__: webBrowserTest

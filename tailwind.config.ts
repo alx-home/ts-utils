@@ -24,10 +24,9 @@ SOFTWARE.
 
 import type { Config } from "tailwindcss";
 import container_queries from '@tailwindcss/container-queries';
+import { KeyValuePair, PluginAPI } from "tailwindcss/types/config.js";
 
-import { KeyValuePair, PluginAPI } from "tailwindcss/types/config";
-
-export default {
+const Tailwind: Config = {
   content: [
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
@@ -83,4 +82,6 @@ export default {
     },
     container_queries
   ],
-} satisfies Config;
+};
+
+export default Tailwind;

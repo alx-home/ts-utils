@@ -24,7 +24,7 @@ SOFTWARE.
 
 import { useEffect, useRef, useState } from "react";
 
-const useMouseMove = (active?: boolean) => {
+export const useMouseMove = (active?: boolean) => {
    const savedPosition = useRef<{ x: number, y: number }>(undefined);
    const [position, setPosition] = useState<{ x: number, y: number }>();
    const [needsUpdate, setNeedsUpdate] = useState(0);

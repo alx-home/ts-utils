@@ -24,7 +24,7 @@ SOFTWARE.
 
 import { useEffect, useState } from "react";
 
-const useMouseRelease = (active?: boolean) => {
+export const useMouseRelease = (active?: boolean) => {
    const [position, setPosition] = useState<{ x: number, y: number } | undefined>();
 
    useEffect(() => {
