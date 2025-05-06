@@ -29,7 +29,6 @@ SOFTWARE.
       "moduleResolution": "nodenext",
       "module": "NodeNext",
       "paths": {
-         "@tailwind": ["tailwind.config.ts"],
          "@build": ["build_template.ts"]
       }
    },

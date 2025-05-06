@@ -32,7 +32,6 @@ SOFTWARE.
          "@types": ["./types/index.d.ts"],
          "@fonts/*": ["./src/fonts/*"],
          "@images/*": ["./src/images/*"],
-         "@tailwind": ["./tailwind.config.ts"],
          "@build": ["./build_template.ts"],
 
          "@Events": ["./src/Events/index.d.ts"],
