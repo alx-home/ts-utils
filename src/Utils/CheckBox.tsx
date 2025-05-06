@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import { ChangeEvent, PropsWithChildren, useCallback, useEffect, useRef } from "react";
+import { ChangeEvent, Children, PropsWithChildren, useCallback, useEffect, useRef } from "react";
 
 import checkImage from '@images/check.svg';
 
@@ -50,7 +50,7 @@ export const CheckBox = ({ className, active, children, value, defaultValue, onC
 
    return <div className={"relative flex flex-row "
       + (className ?? "")}>
-      <div className={"relative flex my-auto"
+      <div className={"relative flex my-auto " + (Children.count(children) ? "mr-4 " : "")
          + ((active ?? true) ? '' : ' opacity-15 pointer-events-none')}>
          <img className={'absolute transition transition-std p-0 m-0 left-[-8px] top-[-7px] min-w-14 min-h-14 invert pointer-events-none'
             + (value ? '' : ' opacity-0')} src={checkImage} alt='checked' />
