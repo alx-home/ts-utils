@@ -26,7 +26,7 @@ import { build } from "vite";
 import path from "path";
 import { fileURLToPath } from "url";
 
-import { LibConfig } from '@build';
+import { LibConfig, lint } from '@build';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -46,4 +46,5 @@ const Config = {
    }
 };
 
+await lint(".");
 await build(Config)

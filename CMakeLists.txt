@@ -11,9 +11,11 @@ list(APPEND DEPS
    ${CMAKE_CURRENT_SOURCE_DIR}/.env.production
    ${CMAKE_CURRENT_SOURCE_DIR}/build.ts
    ${CMAKE_CURRENT_SOURCE_DIR}/build_template.ts
-   ${CMAKE_CURRENT_SOURCE_DIR}/package.json
    ${CMAKE_CURRENT_SOURCE_DIR}/tailwind.config.ts
    ${CMAKE_CURRENT_SOURCE_DIR}/tsconfig.json
+   
+   ${CMAKE_CURRENT_SOURCE_DIR}/package.json
+   ${CMAKE_CURRENT_SOURCE_DIR}/eslint.config.mjs
 )
 
 find_program(NPM npm)

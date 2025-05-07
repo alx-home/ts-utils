@@ -23,7 +23,6 @@ SOFTWARE.
 */
 
 import { AliasOptions, BuildEnvironmentOptions, LibraryOptions, Plugin, PluginOption, UserConfig } from "vite";
-import eslint from '@nabla/vite-plugin-eslint';
 import react from '@vitejs/plugin-react'
 import tailwindcss from "tailwindcss";
 import autoprefixer from "autoprefixer";
@@ -31,6 +30,7 @@ import svgr from 'vite-plugin-svgr';
 import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
 import { config } from "dotenv";
 import tsconfigPaths, { PluginOptions } from 'vite-tsconfig-paths';
+import { ESLint } from 'eslint';
 
 let dev = false;
 process.argv.forEach(function (val) {
@@ -116,7 +116,6 @@ export const LibConfig = ({ name, rollupOptions, entries, output_dir, empty_out,
    },
    plugins: [
       react(),
-      eslint(),
       svgr(),
       cssInjectedByJsPlugin(),
       tsconfigPaths(),
@@ -172,7 +171,6 @@ export const AppConfig = ({ output_dir, empty_out, plugins, minify, alias, tscon
    plugins: [
       react(),
       cssInjectedByJsPlugin(),
-      eslint(),
       svgr(),
       tsconfigPaths(tsconfig),
       ...(plugins ?? [])
@@ -187,4 +185,28 @@ export const AppConfig = ({ output_dir, empty_out, plugins, minify, alias, tscon
    }
 });
 
+export const lint = async (path: string) => {
+   const cwd = process.cwd();
+   process.chdir(path)
+   const eslint = new ESLint({
+      globInputPaths: false
+   });
+
+   // Lancer le linting sur un ou plusieurs fichiers ou répertoires
+   const results = await eslint.lintFiles([]);
+   process.chdir(cwd)
+
+   // Afficher les résultats
+   const formatter = await eslint.loadFormatter("stylish");
+   const resultText = formatter.format(results);
+   console.log(resultText);
+
+   // Vérifier si des erreurs sont présentes
+   const hasErrors = results.some(result => result.errorCount > 0);
+   if (hasErrors) {
+      process.exit(1);
+   }
+};
+
 export type VitePlugin = Plugin;
+export type ViteConfig = UserConfig;
