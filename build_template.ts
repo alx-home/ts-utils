@@ -58,7 +58,7 @@ const default_output_dir = process.env.OUTPUT_DIR;
 
 type RollupOptions = Exclude<BuildEnvironmentOptions['rollupOptions'], undefined>;
 
-export const LibConfig = ({ name, rollupOptions, entries, output_dir, empty_out, alias, plugins, minify, sourcemap, target, define }: {
+export const LibConfig = ({ name, with_react, rollupOptions, entries, output_dir, empty_out, alias, plugins, minify, sourcemap, target, define }: {
    name: string,
    output_dir?: string,
    entries: string[] | LibraryOptions,
@@ -69,7 +69,8 @@ export const LibConfig = ({ name, rollupOptions, entries, output_dir, empty_out,
    plugins?: Plugin<unknown>[],
    minify?: boolean,
    define?: Record<string, unknown>,
-   target?: string | false | string[]
+   target?: string | false | string[],
+   with_react?: boolean
 }): UserConfig => ({
    mode: process.env.BUILD_TYPE,
    define: {
@@ -117,7 +118,7 @@ export const LibConfig = ({ name, rollupOptions, entries, output_dir, empty_out,
       ],
    },
    plugins: [
-      react(),
+      (with_react ?? true) ? react() : [],
       svgr(),
       cssInjectedByJsPlugin(),
       tsconfigPaths(),
@@ -133,14 +134,15 @@ export const LibConfig = ({ name, rollupOptions, entries, output_dir, empty_out,
    }
 });
 
-export const AppConfig = ({ output_dir, empty_out, plugins, minify, alias, tsconfig, define }: {
+export const AppConfig = ({ with_react, output_dir, empty_out, plugins, minify, alias, tsconfig, define }: {
    output_dir?: string,
    empty_out?: boolean,
    plugins?: Plugin<unknown>[],
    alias?: AliasOptions,
    define?: Record<string, unknown>,
    minify?: boolean,
-   tsconfig?: PluginOptions
+   tsconfig?: PluginOptions,
+   with_react?: boolean
 }): UserConfig => ({
    mode: process.env.BUILD_TYPE,
    define: {
@@ -171,7 +173,7 @@ export const AppConfig = ({ output_dir, empty_out, plugins, minify, alias, tscon
       ],
    },
    plugins: [
-      react(),
+      (with_react ?? true) ? react() : [],
       cssInjectedByJsPlugin(),
       svgr(),
       tsconfigPaths(tsconfig),
