@@ -24,7 +24,7 @@ SOFTWARE.
 
 {
    "compilerOptions": {
-      "target": "ES2017",
+      "target": "ESNext",
       "lib": ["dom", "dom.iterable", "esnext"],
       // "declarationDir": "types",
       "declaration": true,
@@ -51,7 +51,7 @@ SOFTWARE.
       "noUncheckedSideEffectImports": true,
       "noEmit": false,
       "esModuleInterop": true,
-      "module": "es6",
+      "module": "ESNext",
       // "moduleResolution": "node",
       "resolveJsonModule": true,
       "isolatedModules": true,
