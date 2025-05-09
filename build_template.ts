@@ -70,7 +70,7 @@ export const LibConfig = ({ name, with_react, rollupOptions, entries, output_dir
    minify?: boolean,
    define?: Record<string, unknown>,
    target?: string | false | string[],
-   with_react?: boolean
+   with_react?: boolean,
 }): UserConfig => ({
    mode: process.env.BUILD_TYPE,
    define: {
@@ -134,15 +134,17 @@ export const LibConfig = ({ name, with_react, rollupOptions, entries, output_dir
    }
 });
 
-export const AppConfig = ({ with_react, output_dir, empty_out, plugins, minify, alias, tsconfig, define }: {
+export const AppConfig = ({ with_react, output_dir, empty_out, plugins, minify, alias, tsconfig, define, target, rollup_options }: {
    output_dir?: string,
    empty_out?: boolean,
    plugins?: Plugin<unknown>[],
    alias?: AliasOptions,
    define?: Record<string, unknown>,
-   minify?: boolean,
+   minify?: boolean | 'terser' | 'esbuild',
+   target?: string | false | string[],
    tsconfig?: PluginOptions,
-   with_react?: boolean
+   with_react?: boolean,
+   rollup_options?: RollupOptions
 }): UserConfig => ({
    mode: process.env.BUILD_TYPE,
    define: {
@@ -156,11 +158,13 @@ export const AppConfig = ({ with_react, output_dir, empty_out, plugins, minify, 
          output: {
             manualChunks: undefined,
          },
+         ...rollup_options
       },
       outDir: output_dir ?? default_output_dir,
       ssr: false,
       sourcemap: process.env.BUILD_TYPE === 'development',
       emptyOutDir: empty_out ?? true,
+      target: target,
    },
    resolve: {
       alias: alias,
