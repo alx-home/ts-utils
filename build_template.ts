@@ -58,7 +58,7 @@ const default_output_dir = process.env.OUTPUT_DIR;
 
 type RollupOptions = Exclude<BuildEnvironmentOptions['rollupOptions'], undefined>;
 
-export const LibConfig = ({ name, rollupOptions, entries, output_dir, empty_out, alias, plugins, minify, sourcemap, target }: {
+export const LibConfig = ({ name, rollupOptions, entries, output_dir, empty_out, alias, plugins, minify, sourcemap, target, define }: {
    name: string,
    output_dir?: string,
    entries: string[] | LibraryOptions,
@@ -68,11 +68,13 @@ export const LibConfig = ({ name, rollupOptions, entries, output_dir, empty_out,
    sourcemap?: boolean
    plugins?: Plugin<unknown>[],
    minify?: boolean,
+   define?: Record<string, unknown>,
    target?: string | false | string[]
 }): UserConfig => ({
    mode: process.env.BUILD_TYPE,
    define: {
-      __WEB_BROWSER_TEST__: webBrowserTest
+      __WEB_BROWSER_TEST__: webBrowserTest,
+      ...define
    },
    build: {
       lib: {
