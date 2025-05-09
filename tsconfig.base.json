@@ -35,7 +35,6 @@ SOFTWARE.
       "removeComments": true,
       "allowSyntheticDefaultImports": true,
       /* Bundler mode */
-      "moduleResolution": "bundler", // Specifies how modules are resolved when bundling.
       "allowImportingTsExtensions": false, // Allows importing TypeScript files with extensions.
       "jsx": "preserve", // Configures JSX support for React.
       /* --- Bundler mode */
@@ -51,8 +50,8 @@ SOFTWARE.
       "noUncheckedSideEffectImports": true,
       "noEmit": false,
       "esModuleInterop": true,
-      "module": "ESNext",
-      // "moduleResolution": "node",
+      "module": "NodeNext",
+      "moduleResolution": "nodenext",
       "resolveJsonModule": true,
       "isolatedModules": true,
       // "jsx": "preserve",

@@ -26,8 +26,6 @@ SOFTWARE.
    "extends": "./tsconfig.base.json",
    "compilerOptions": {
       "baseUrl": ".",
-      "moduleResolution": "nodenext",
-      "module": "NodeNext",
       "paths": {
          "@build": ["build_template.ts"]
       }
