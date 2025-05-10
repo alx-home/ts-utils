@@ -58,7 +58,7 @@ const default_output_dir = process.env.OUTPUT_DIR;
 
 type RollupOptions = Exclude<BuildEnvironmentOptions['rollupOptions'], undefined>;
 
-export const LibConfig = ({ name, with_react, rollupOptions, entries, output_dir, empty_out, alias, plugins, minify, sourcemap, target, define }: {
+export const LibConfig = ({ name, with_tailwindcss, with_react, rollupOptions, entries, output_dir, empty_out, alias, plugins, minify, sourcemap, target, define }: {
    name: string,
    output_dir?: string,
    entries: string[] | LibraryOptions,
@@ -71,6 +71,7 @@ export const LibConfig = ({ name, with_react, rollupOptions, entries, output_dir
    define?: Record<string, unknown>,
    target?: string | false | string[],
    with_react?: boolean,
+   with_tailwindcss?: boolean
 }): UserConfig => ({
    mode: process.env.BUILD_TYPE,
    define: {
@@ -128,13 +129,13 @@ export const LibConfig = ({ name, with_react, rollupOptions, entries, output_dir
       postcss: {
          plugins: [
             autoprefixer,
-            tailwindcss
+            ...((with_tailwindcss ?? true) ? [tailwindcss] : [])
          ]
       },
    }
 });
 
-export const AppConfig = ({ with_react, output_dir, empty_out, plugins, minify, alias, tsconfig, define, target, rollup_options }: {
+export const AppConfig = ({ with_react, with_tailwindcss, output_dir, empty_out, plugins, minify, alias, tsconfig, define, target, rollup_options }: {
    output_dir?: string,
    empty_out?: boolean,
    plugins?: Plugin<unknown>[],
@@ -144,7 +145,8 @@ export const AppConfig = ({ with_react, output_dir, empty_out, plugins, minify, 
    target?: string | false | string[],
    tsconfig?: PluginOptions,
    with_react?: boolean,
-   rollup_options?: RollupOptions
+   rollup_options?: RollupOptions,
+   with_tailwindcss?: boolean
 }): UserConfig => ({
    mode: process.env.BUILD_TYPE,
    define: {
@@ -187,7 +189,7 @@ export const AppConfig = ({ with_react, output_dir, empty_out, plugins, minify, 
       postcss: {
          plugins: [
             autoprefixer,
-            tailwindcss
+            ...((with_tailwindcss ?? true) ? [tailwindcss] : [])
          ]
       },
    }

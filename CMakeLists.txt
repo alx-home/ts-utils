@@ -13,6 +13,8 @@ list(APPEND SOURCES
    ${CMAKE_CURRENT_SOURCE_DIR}/build_template.ts
    ${CMAKE_CURRENT_SOURCE_DIR}/tailwind.config.ts
    ${CMAKE_CURRENT_SOURCE_DIR}/tsconfig.json
+   ${CMAKE_CURRENT_SOURCE_DIR}/tsconfig.base.json
+   ${CMAKE_CURRENT_SOURCE_DIR}/tsconfig.build.json
 
    ${CMAKE_CURRENT_SOURCE_DIR}/package.json
    ${CMAKE_CURRENT_SOURCE_DIR}/eslint.config.mjs
