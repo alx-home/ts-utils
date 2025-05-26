@@ -53,6 +53,8 @@ export const Input = ({ inputClass, className, active, placeholder, pattern, typ
       setIsValid?.(value);
    }, [setIsValid]);
 
+   const [init, setInit] = useState(true);
+
    const refInt = useRef<HTMLInputElement | null>(null);
    const ref = useMemo(() => parentRef ?? refInt, [parentRef]);
 
@@ -77,10 +79,14 @@ export const Input = ({ inputClass, className, active, placeholder, pattern, typ
    }, [reset, ref, onChange, defaultValue, reload, value, _setValid]);
 
    useEffect(() => {
-      if (value != undefined) {
-         ref.current!.value = value
+      if (init) {
+         if (value != undefined) {
+            ref.current!.value = value
+         }
+
+         setInit(false);
       }
-   }, [ref, value]);
+   }, [init, ref, value]);
 
    const onKeyUp = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
       if (e.code === "Enter") {
@@ -100,7 +106,8 @@ export const Input = ({ inputClass, className, active, placeholder, pattern, typ
       + (active ? ' hocus:bg-gray-800 hocus:drop-shadow-xl hocus:border-msfs has-[:focus]:border-msfs has-[:hover]:border-msfs' : ' opacity-30')
       + (valid ? '' : ' invalid')}>
       <div className='flex flex-row grow min-w-0 py-1 px-2'>
-         <input ref={ref} type={type} className={'grow flex max-w-full bg-transparent ' + (inputClass ?? "") + (valid ? '' : ' invalid')} disabled={!active} placeholder={placeholder} inputMode={inputMode} pattern={pattern}
+         <input ref={ref} type={type} className={'grow flex max-w-full bg-transparent ' + (inputClass ?? "") + (valid ? '' : ' invalid')}
+            disabled={!active} placeholder={placeholder} inputMode={inputMode} pattern={pattern}
             onChange={onChangeC}
             onKeyUp={onKeyUp}
          />
