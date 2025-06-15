@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2025 alx-home
+Copyright (c) 2025 Alexandre GARCIN
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -26,13 +26,15 @@ SOFTWARE.
 @tailwind components;
 @tailwind utilities;
 
-
 @font-face {
    font-family: Inter-Bold;
    src: url(fonts/Inter-Bold.ttf);
 }
 
-*, :before, :after, :root {
+*,
+:before,
+:after,
+:root {
    font-family: Inter-Bold, sans-serif;
 
    --highlight-gold: #ffdd00;
@@ -51,7 +53,8 @@ SOFTWARE.
    --button-background-color: #4b5563;
    --text-field-color: #111827;
    --menu-bg: #1f2937;
-   --item-color-filter: brightness(0) saturate(100%) invert(90%) sepia(89%) saturate(1%) hue-rotate(233deg) brightness(109%) contrast(99%);
+   --item-color-filter: brightness(0) saturate(100%) invert(90%) sepia(89%)
+      saturate(1%) hue-rotate(233deg) brightness(109%) contrast(99%);
    --item-color-hover: #ffffff;
    --item-background-color: #4b5563;
    --field-background-color: var(--item-background-color);
@@ -62,8 +65,11 @@ SOFTWARE.
    --item-bg-hocus: var(--foreground);
    --item-active-bg: var(--highlight-color);
    --item-color-active: #000000;
-   --item-color-hover-filter: brightness(0) saturate(100%) invert(33%) sepia(15%) saturate(526%) hue-rotate(176deg) brightness(92%) contrast(91%);
-   --item-color-active-filter: brightness(0) saturate(100%) invert(54%) sepia(30%) saturate(6068%) hue-rotate(169deg) brightness(106%) contrast(102%);
+   --item-color-hover-filter: brightness(0) saturate(100%) invert(33%)
+      sepia(15%) saturate(526%) hue-rotate(176deg) brightness(92%) contrast(91%);
+   --item-color-active-filter: brightness(0) saturate(100%) invert(54%)
+      sepia(30%) saturate(6068%) hue-rotate(169deg) brightness(106%)
+      contrast(102%);
    --overlay-bg: #1e5987;
 
    --tw-border-spacing-x: 0;
@@ -78,7 +84,7 @@ SOFTWARE.
    --tw-scroll-snap-strictness: proximity;
    --tw-ring-offset-width: 0px;
    --tw-ring-offset-color: #fff;
-   --tw-ring-color: rgb(59 130 246 / .5);
+   --tw-ring-color: rgb(59 130 246 / 0.5);
    --tw-shadow-opacity: 0.05;
    --tw-ring-offset-shadow: 0 0 rgb(0 0 0 / var(--tw-shadow-opacity));
    --tw-ring-shadow: 0 0 rgb(0 0 0 / var(--tw-shadow-opacity));
@@ -128,7 +134,7 @@ html {
    display: none;
 }
 
-body>div {
+body > div {
    height: 100%;
 }
 
@@ -141,14 +147,17 @@ body>div {
 @layer utilities {
    .shadow-smd {
       --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 1), 0 2px 4px -2px rgb(0 0 0 / 1);
-      --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
-      box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+      --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color),
+         0 2px 4px -2px var(--tw-shadow-color);
+      box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+         var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
    }
 
    .shadow-ssm {
       --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.3);
       --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
-      box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+      box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+         var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
    }
 
    .border-msfs {
@@ -160,7 +169,8 @@ body>div {
    }
 
    .filter-msfs {
-      filter: invert(53%) sepia(49%) saturate(3264%) hue-rotate(166deg) brightness(103%) contrast(104%);
+      filter: invert(53%) sepia(49%) saturate(3264%) hue-rotate(166deg)
+         brightness(103%) contrast(104%);
    }
 
    .bg-menu {
