@@ -133,6 +133,10 @@ const SliderImpl = ({ className, active, range, reset, defaultValue, onChange, v
       setScrolling(true);
    }, []);
 
+   const onWheel = useCallback(() => {
+
+   }, []);
+
    return <div className={"flex flex-row grow " + (className ?? "")}>
       {children}
       <div className={'group/slider relative flex flex-row grow max-w-full pr-[18px] m-auto'}>
@@ -168,6 +172,7 @@ const SliderImpl = ({ className, active, range, reset, defaultValue, onChange, v
                tabIndex={-1}
                ref={trackRef}
                onMouseDown={onClick}
+               onWheel={onWheel}
             >
                <div className={'flex flex-row grow transition-all duration-100 bg-gray-700 shadow-md h-[8px] m-auto'
                   + ' rounded-sm border-2 border-gray-900'
