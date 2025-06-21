@@ -119,7 +119,7 @@ const ScrollImpl = ({ children, className, style, hidden, onWheel }: ScrollProps
          onMouseDown={(e) => onClick(e, true)}
       >
          {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
-         <div className={'transition grow bg-gray-700 group-hover/scroll:bg-msfs'
+         <div className={'transition grow bg-gray-700 group-hover/scroll:bg-msfs select-none'
             + (scrolling?.vertical ? ' bg-msfs' : '')}
             style={{ marginTop: scroll.y, height: scroll.height }}
             onMouseDown={e => onScrollClick(e, true)}
@@ -134,7 +134,7 @@ const ScrollImpl = ({ children, className, style, hidden, onWheel }: ScrollProps
          onMouseDown={(e) => onClick(e, false)}
       >
          {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
-         <div className={'transition grow bg-gray-700 group-hover/scroll:bg-msfs'
+         <div className={'transition grow bg-gray-700 group-hover/scroll:bg-msfs select-none'
             + ((scrolling ? !scrolling.vertical : false) ? ' bg-msfs' : '')}
             style={{ marginLeft: scroll.x, width: scroll.width }}
             onMouseDown={e => onScrollClick(e, false)}
