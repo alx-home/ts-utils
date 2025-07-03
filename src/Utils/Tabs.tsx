@@ -25,12 +25,13 @@ SOFTWARE.
 import { PropsWithChildren } from "react";
 import { Button } from "./Button";
 
-export const Tabs = <Tab extends string,>({ children, tabs, disabled, switchTab, activeTab, names }: PropsWithChildren<{
+export const Tabs = <Tab extends string,>({ children, tabs, disabled, switchTab, activeTab, names, className }: PropsWithChildren<{
    activeTab: string,
    tabs: Tab[],
    names?: Record<Tab, string>,
    switchTab: (_tab: Tab) => void,
-   disabled?: boolean
+   disabled?: boolean,
+   className?: string
 }>) => {
    return <div className='flex flex-col [&>:not(:first-child)]:ml-2 shadow-sm'>
       <div className='flex flex-row justify-start h-[29px] min-h-[29px]'>
@@ -42,7 +43,7 @@ export const Tabs = <Tab extends string,>({ children, tabs, disabled, switchTab,
                </Button>)}
          </div>
       </div>
-      <div className='flex flex-col p-4'>
+      <div className={'flex flex-col p-4 ' + (className ?? "")}>
          {children}
       </div>
    </div>
