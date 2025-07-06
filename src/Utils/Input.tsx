@@ -88,7 +88,7 @@ export const Input = ({ inputClass, className, active, placeholder, pattern, typ
 
          setInit(false);
       }
-   }, [init, ref, value]);
+   }, [init, ref, value, active]);
 
    const onKeyUp = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
       if (e.code === "Enter") {

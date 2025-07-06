@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import { PropsWithChildren, useRef, useMemo, Children, isValidElement, useState, ReactElement, useCallback, KeyboardEvent, ReactNode, RefObject, FocusEvent, useEffect } from 'react';
+import { PropsWithChildren, useRef, useMemo, Children, isValidElement, useState, ReactElement, useCallback, KeyboardEvent, ReactNode, RefObject, useEffect, FocusEvent } from 'react';
 
 import Arrow from '@images/arrow.svg?react';
 
@@ -43,6 +43,8 @@ export function Select<Id>({ children, className, active, disabled, value, onCha
    const [open, setOpen] = useState(false);
    const elemRef = useRef<HTMLButtonElement | null>(null);
    const arrowRef = useRef<HTMLButtonElement | null>(null);
+   const parentRef = useRef<HTMLDivElement | null>(null);
+   const [focusTime, setFocusTime] = useState<Date>(new Date());
    const style = useMemo(() => "bg-gray-700 shadow-md flex flex-col rounded-sm border-gray-900"
       + ((disabled ?? false) ? ' opacity-30' : ' group-hocus:bg-gray-800 group-hocus:drop-shadow-xl group-hocus:border-msfs group-has-[:focus]:border-msfs group-has-[:hover]:border-msfs cursor-pointer'), [disabled]);
 
@@ -58,13 +60,21 @@ export function Select<Id>({ children, className, active, disabled, value, onCha
       , [childs]);
 
    const onBlur = useCallback((e: FocusEvent<HTMLButtonElement>) => {
+      const delta = (new Date()).getTime() - focusTime.getTime();
+
       if (e.relatedTarget !== elemRef.current
          && e.relatedTarget !== arrowRef.current
          && !optionsRef.find(elem => elem.current === e.relatedTarget)
       ) {
-         setOpen(false);
+         if (delta > 100) {
+            setOpen(false)
+         }
       }
-   }, [optionsRef]);
+   }, [focusTime, optionsRef]);
+
+   const onFocus = useCallback(() => {
+      setFocusTime(new Date());
+   }, []);
 
    const preventDefault = useCallback((e: KeyboardEvent<HTMLButtonElement>) => {
       if (e.code == 'ArrowLeft' || e.code == 'ArrowRight' || e.code == 'ArrowDown' || e.code == 'ArrowUp') {
@@ -119,13 +129,15 @@ export function Select<Id>({ children, className, active, disabled, value, onCha
                onMouseUp={() => {
                   elemRef.current?.blur()
                }}
+               onMouseDown={onFocus}
+               onFocus={onFocus}
                onBlur={onBlur}
                onKeyDown={preventDefault}
                onKeyUp={onKey}
             >
                {child}
             </button>)
-      }</div>, [style, childs, onBlur, preventDefault, onKey, onChange]);
+      }</div>, [style, childs, onFocus, onBlur, preventDefault, onKey, onChange]);
 
    const labels = useMemo(() => childs.reduce((result, child) => {
       result.set(child.props.id, child.props.children);
@@ -146,17 +158,18 @@ export function Select<Id>({ children, className, active, disabled, value, onCha
       }
    }, [labels, open, optionsRef, value]);
 
-   return <div className={"flex group grow " + (className ?? "")}>
+   return <div ref={parentRef} className={"flex group grow " + (className ?? "")}>
       <div className='flex flex-row grow'>
          <div className='flex flex-col grow [&>:first-child]:p-1 '>
             <button ref={elemRef}
                onClick={toggle}
+               onFocus={onFocus}
                onBlur={onBlur}
                onKeyUp={onKey}
                onKeyDown={preventDefault}
                disabled={(disabled ?? false) || !(active ?? true)}
                className={'grow border-y-2 border-l-2 ' + style + ' border-r-0 rounded-r-none' + (open ? ' rounded-b-none' : '')}>
-               <div className={'line-clamp-1 w-[100%] overflow-ellipsis text-xl font-semibold text-white text-center '} >
+               <div className={'line-clamp-1 w-[100%] overflow-ellipsis text-xl font-semibold text-white text-center justify-center '} >
                   <div className='grow'>{labels.get(value)}</div>
                </div>
             </button>
