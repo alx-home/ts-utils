@@ -28,7 +28,7 @@ export const EndSlot = ({ children }: PropsWithChildren) => {
    return children
 }
 
-export const Input = ({ inputClass, className, active, placeholder, pattern, type, inputMode, validate, value, defaultValue, reset, onChange, onValidate, setIsValid, ref: parentRef, children, reload }: PropsWithChildren<{
+export const Input = ({ inputClass, className, active, placeholder, pattern, type, inputMode, validate, value, defaultValue, reset, onChange, onValidate, setIsValid, ref: parentRef, children, reload, onKeyDown, onKeyUp: onKeyUpP }: PropsWithChildren<{
    active: boolean,
    className?: string,
    inputClass?: string,
@@ -44,7 +44,9 @@ export const Input = ({ inputClass, className, active, placeholder, pattern, typ
    onChange?: (_value: string) => void,
    setIsValid?: (_: boolean) => void,
    onValidate?: (_value: string) => void,
-   ref?: RefObject<HTMLInputElement | null>
+   ref?: RefObject<HTMLInputElement | null>,
+   onKeyDown?: (_event: KeyboardEvent<HTMLInputElement>) => void
+   onKeyUp?: (_event: KeyboardEvent<HTMLInputElement>) => void
 }>) => {
    const [valid, setValid] = useState(true);
    const endSlots = useMemo(() => Children.toArray(children).filter(child => isValidElement(child) && child.type === EndSlot), [children]);
@@ -92,7 +94,9 @@ export const Input = ({ inputClass, className, active, placeholder, pattern, typ
       if (e.code === "Enter") {
          onValidate?.(e.currentTarget.value);
       }
-   }, [onValidate]);
+
+      onKeyUpP?.(e);
+   }, [onKeyUpP, onValidate]);
 
    const onChangeC = useCallback(async (e: ChangeEvent<HTMLInputElement>) => {
       const valid = (await validate?.(e.target.value, false)) ?? true;
@@ -110,6 +114,7 @@ export const Input = ({ inputClass, className, active, placeholder, pattern, typ
             disabled={!active} placeholder={placeholder} inputMode={inputMode} pattern={pattern}
             onChange={onChangeC}
             onKeyUp={onKeyUp}
+            onKeyDown={onKeyDown}
          />
       </div>
       {endSlots}
