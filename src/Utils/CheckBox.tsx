@@ -52,14 +52,14 @@ export const CheckBox = ({ className, active, children, value, defaultValue, onC
       + (className ?? "")}>
       <div className={"relative flex my-auto " + (Children.count(children) ? "mr-4 " : "")
          + ((active ?? true) ? '' : ' opacity-15 pointer-events-none')}>
-         <img className={'absolute transition transition-std p-0 m-0 left-[-8px] top-[-7px] min-w-14 min-h-14 invert pointer-events-none'
+         <img className={'absolute transition transition-std p-0 m-0 left-[-8px] top-[-7px] min-w-10 min-h-10 invert pointer-events-none'
             + (value ? '' : ' opacity-0')} src={checkImage} alt='checked' />
          <input type='checkbox' className={'peer absolute opacity-0 h-8 w-8 p-0 m-0 cursor-pointer'} checked={value}
             onChange={onChangeC}
             onMouseUp={blur}
             ref={elemRef}
             disabled={!(active ?? true)} />
-         <div className={"flex h-8 w-8 bg-gray-700 p-1 shadow-md text-left rounded-sm border-2 border-gray-900"
+         <div className={"flex h-6 w-6 bg-gray-700 p-1 shadow-md text-left rounded-sm border-2 border-gray-900"
             + " peer-hocus:bg-gray-800 peer-hocus:border-msfs cursor-pointer"} />
       </div>
       {children}

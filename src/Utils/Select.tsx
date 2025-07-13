@@ -169,7 +169,7 @@ export function Select<Id>({ children, className, active, disabled, value, onCha
                onKeyDown={preventDefault}
                disabled={(disabled ?? false) || !(active ?? true)}
                className={'grow border-y-2 border-l-2 ' + style + ' border-r-0 rounded-r-none' + (open ? ' rounded-b-none' : '')}>
-               <div className={'line-clamp-1 w-[100%] overflow-ellipsis text-xl font-semibold text-white text-center justify-center '} >
+               <div className={'line-clamp-1 w-[100%] overflow-ellipsis text-sm text-white text-center justify-center '} >
                   <div className='grow'>{labels.get(value)}</div>
                </div>
             </button>

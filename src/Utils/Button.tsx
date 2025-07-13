@@ -43,7 +43,7 @@ export const Button = ({ children, onClick, className, active, disabled, title }
          onClick?.(e)
       }}
       disabled={(disabled ?? false) || !(active ?? true)}>
-      <div className={'line-clamp-1 w-[100%] overflow-ellipsis text-xl font-semibold text-white ' + (className ?? "")} >
+      <div className={'line-clamp-1 w-[100%] overflow-ellipsis text-sm text-white ' + (className ?? "")} >
          {children}
       </div>
    </button>;
