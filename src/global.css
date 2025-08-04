@@ -177,6 +177,15 @@ button {
          brightness(103%) contrast(104%);
    }
 
+   .filter-icon {
+      filter: invert(53%) sepia(49%) saturate(3264%) hue-rotate(166deg)
+         brightness(103%) contrast(104%)
+         drop-shadow(-1px -1px 0px #ffffff)
+         drop-shadow(1px -1px 0px #ffffff)
+         drop-shadow(1px 1px 0px #ffffff)
+         drop-shadow(-1px 1px 0px #ffffff);
+   }
+
    .bg-menu {
       background-color: var(--menu-bg);
    }
