@@ -113,7 +113,7 @@ const ScrollImpl = ({ children, className, style, hidden, onWheel }: ScrollProps
       {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
       <div className={'group/scroll absolute transition duration-1000 hover:duration-200 cursor-pointer z-10'
          + ' flex flex-row right-0 top-0 bottom-0 bg-gray-800 bg-opacity-50 opacity-0 hover:opacity-100'
-         + ' group-hover/container:opacity-100'
+         + ' group-hover/container:opacity-100 [&:hover>*]:w-6'
          + (scroll.displayY ? '' : ' hidden')
       }
          onMouseDown={(e) => onClick(e, true)}
@@ -128,7 +128,7 @@ const ScrollImpl = ({ children, className, style, hidden, onWheel }: ScrollProps
       {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
       <div className={'group/scroll absolute transition duration-1000 hover:duration-200 cursor-pointer z-10'
          + ' flex flex-col left-0 right-0 bottom-0 bg-gray-800 bg-opacity-50 opacity-0 hover:opacity-100'
-         + ' group-hover/container:opacity-100'
+         + ' group-hover/container:opacity-100 [&:hover>*]:h-6'
          + (scroll.displayX ? '' : ' hidden')
       }
          onMouseDown={(e) => onClick(e, false)}
