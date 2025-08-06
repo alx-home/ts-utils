@@ -112,40 +112,34 @@ const ScrollImpl = ({ children, className, style, hidden, onWheel }: ScrollProps
    return <div className='group/container flex w-full relative min-h-0 max-h-full overflow-hidden'>
       {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
       <div className={'group/scroll absolute transition duration-1000 hover:duration-200 cursor-pointer z-10'
-         + ' flex flex-row right-0 top-0 w-[7px] bottom-[7px] bg-gray-800 bg-opacity-50 opacity-0 hover:opacity-100'
+         + ' flex flex-row right-0 top-0 bottom-0 bg-gray-800 bg-opacity-50 opacity-0 hover:opacity-100'
          + ' group-hover/container:opacity-100'
          + (scroll.displayY ? '' : ' hidden')
       }
          onMouseDown={(e) => onClick(e, true)}
       >
          {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
-         <div className={'transition grow bg-gray-700 group-hover/scroll:bg-msfs select-none'
-            + (scrolling?.vertical ? ' bg-msfs' : '')}
+         <div className={'grow bg-gray-700 group-hover/scroll:bg-msfs select-none transition [transition-property:width] hocus:w-6'
+            + (scrolling?.vertical ? ' bg-msfs w-6' : ' w-2')}
             style={{ marginTop: scroll.y, height: scroll.height }}
             onMouseDown={e => onScrollClick(e, true)}
          />
       </div>
       {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
       <div className={'group/scroll absolute transition duration-1000 hover:duration-200 cursor-pointer z-10'
-         + ' flex flex-col left-0 right-[7px] h-[7px] bottom-0 bg-gray-800 bg-opacity-50 opacity-0 hover:opacity-100'
+         + ' flex flex-col left-0 right-0 bottom-0 bg-gray-800 bg-opacity-50 opacity-0 hover:opacity-100'
          + ' group-hover/container:opacity-100'
          + (scroll.displayX ? '' : ' hidden')
       }
          onMouseDown={(e) => onClick(e, false)}
       >
          {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
-         <div className={'transition grow bg-gray-700 group-hover/scroll:bg-msfs select-none'
-            + ((scrolling ? !scrolling.vertical : false) ? ' bg-msfs' : '')}
+         <div className={'grow bg-gray-700 group-hover/scroll:bg-msfs select-none transition [transition-property:height] hocus:h-6'
+            + ((scrolling ? !scrolling.vertical : false) ? ' bg-msfs h-6' : ' h-2')}
             style={{ marginLeft: scroll.x, width: scroll.width }}
             onMouseDown={e => onScrollClick(e, false)}
          />
       </div>
-      <div className={'group/scroll absolute transition duration-1000 hover:duration-200 z-10'
-         + ' flex flex-col right-0 w-[7px] h-[7px] bottom-0 bg-gray-800 bg-opacity-50 opacity-0 hover:opacity-100'
-         + ' group-hover/container:opacity-100'
-         + ((scroll.displayX || scroll.displayY) ? '' : ' hidden')
-      }
-      />
       <div className={'peer flex w-full box-content overflow-scroll [scrollbar-width:none] '
          + (className ?? '')
          + (selectable ? '' : ' select-none')
