@@ -28,6 +28,7 @@ add_custom_command(
    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
    COMMAND NPM run "build$<$<CONFIG:DEBUG>:\:dev>"
    COMMENT "alx-home_ts_utils: Running NPM run build$<$<CONFIG:DEBUG>:\:dev>"
+   VERBATIM
 )
 
 add_custom_target(alx-home_ts_utils
