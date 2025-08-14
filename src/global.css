@@ -210,6 +210,10 @@ button {
       background-color: var(--highlight-color);
    }
 
+   .border-msfs {
+      border-color: var(--highlight-color);
+   }
+
    .bg-overlay {
       background-color: var(--overlay-bg);
    }
