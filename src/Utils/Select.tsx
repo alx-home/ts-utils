@@ -45,7 +45,7 @@ export function Select<Id>({ children, className, active, disabled, value, onCha
    const arrowRef = useRef<HTMLButtonElement | null>(null);
    const parentRef = useRef<HTMLDivElement | null>(null);
    const [focusTime, setFocusTime] = useState<Date>(new Date());
-   const style = useMemo(() => "bg-gray-700 shadow-md flex flex-col rounded-sm border-gray-900"
+   const style = useMemo(() => "bg-gray-700 shadow-md rounded-sm border-gray-900"
       + ((disabled ?? false) ? ' opacity-30' : ' group-hocus:bg-gray-800 group-hocus:drop-shadow-xl group-hocus:border-msfs group-has-[:focus]:border-msfs group-has-[:hover]:border-msfs cursor-pointer'), [disabled]);
 
    const childs = useMemo(() =>
@@ -120,7 +120,7 @@ export function Select<Id>({ children, className, active, disabled, value, onCha
          childs.map((child, index) =>
             <button key={child.props.id as string}
                ref={optionsRef?.[index]}
-               className='my-1 py-1 px-2 border-2 border-transparent hocus:border-msfs'
+               className='my-1 py-1 px-2 border-2 border-transparent text-ellipsis overflow-x-hidden line-clamp-1 hocus:border-msfs'
                onClick={() => {
                   elemRef.current?.focus()
                   onChange(child.props.id)
@@ -158,9 +158,9 @@ export function Select<Id>({ children, className, active, disabled, value, onCha
       }
    }, [labels, open, optionsRef, value]);
 
-   return <div ref={parentRef} className={"flex group grow " + (className ?? "")}>
-      <div className='flex flex-row grow'>
-         <div className='flex flex-col grow [&>:first-child]:p-1 '>
+   return <div ref={parentRef} className={"flex flex-col group grow max-w-full [&_*]:overflow-y-visible " + (className ?? "")}>
+      <div className='relative flex flex-col grow [&>:first-child]:p-1 max-w-full'>
+         <div className={'flex flex-row grow border-2 max-w-full ' + style + ' rounded-r-none' + (open ? ' rounded-b-none' : '')}>
             <button ref={elemRef}
                onClick={toggle}
                onFocus={onFocus}
@@ -168,29 +168,31 @@ export function Select<Id>({ children, className, active, disabled, value, onCha
                onKeyUp={onKey}
                onKeyDown={preventDefault}
                disabled={(disabled ?? false) || !(active ?? true)}
-               className={'grow border-y-2 border-l-2 ' + style + ' border-r-0 rounded-r-none' + (open ? ' rounded-b-none' : '')}>
-               <div className={'line-clamp-1 w-[100%] overflow-ellipsis text-sm text-white text-center justify-center '} >
-                  <div className='grow'>{labels.get(value)}</div>
+               className={'grow max-w-full overflow-x-hidden'}>
+               <div className={style + ' w-full max-w-full text-sm text-white text-center justify-center'} >
+                  <div className='w-full text-ellipsis overflow-x-hidden line-clamp-1'>{labels.get(value)}</div>
                </div>
             </button>
-            <div className='relative w-[calc(100%+22px)] overflow-visible'>
-               <div className='absolute w-full'>
-                  <div inert={!open} className={'relative z-50 overflow-hidden w-full duration-300 transition-opacity' + (open ? ' h-full' : ' max-h-0 opacity-0 pointer-events-none')}>
-                     {options(optionsRef)}
-                  </div>
+            <button
+               tabIndex={-1}
+               ref={arrowRef}
+               onClick={focus}
+               className={'flex flex-col min-w-0 shrink-0 rounded-l-none ' + style + " shadow-none" + (open ? ' rounded-b-none' : '')}>
+               <Arrow width={20} height={15} className={'transition-all m-auto' + (open ? ' -rotate-90' : '')} />
+            </button>
+         </div>
+         <div className='flex w-full h-0'>
+            <div className='absolute w-full'>
+               <div inert={!open} className={'relative z-50 overflow-x-hidden w-full duration-300 transition-opacity'
+                  + (open ? ' h-full' : ' max-h-0 opacity-0 pointer-events-none')}>
+                  {options(optionsRef)}
                </div>
             </div>
-            <div className={'block h-0 max-h-0 opacity-0 overflow-hidden'} inert={true}>
-               {options()}
-            </div>
          </div>
-         <button
-            tabIndex={-1}
-            ref={arrowRef}
-            onClick={focus}
-            className={'rounded-l-none border-y-2 border-r-2 ' + style + " shadow-none" + (open ? ' rounded-b-none' : '')}>
-            <Arrow width={20} height={15} className={'transition-all m-auto' + (open ? ' -rotate-90' : '')} />
-         </button>
+         {/* Keeps min width to fit options */}
+         <div className={'block h-0 max-h-0 opacity-0 overflow-x-hidden'} inert={true}>
+            {options()}
+         </div>
       </div>
    </div>;
 };
