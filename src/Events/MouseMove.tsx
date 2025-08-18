@@ -52,4 +52,20 @@ export const useMouseMove = (active?: boolean) => {
    return position;
 }
 
+export const useMousePos = () => {
+   const position = useRef<[number, number]>([0, 0]);
+
+   useEffect(() => {
+      const handleMouseMove = (e: MouseEvent) => {
+         position.current = [e.clientX, e.clientY]
+      };
+
+      document.addEventListener('mousemove', handleMouseMove);
+      return () => document.removeEventListener('mousemove', handleMouseMove);
+   }, []);
+
+
+   return position;
+}
+
 export default useMouseMove;
