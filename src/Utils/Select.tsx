@@ -42,7 +42,6 @@ export function Select<Id>({ children, className, active, disabled, value, onCha
 }>) {
    const [open, setOpen] = useState(false);
    const elemRef = useRef<HTMLButtonElement | null>(null);
-   const arrowRef = useRef<HTMLButtonElement | null>(null);
    const parentRef = useRef<HTMLDivElement | null>(null);
    const [focusTime, setFocusTime] = useState<Date>(new Date());
    const style = useMemo(() => "bg-gray-700 shadow-md rounded-sm border-gray-900"
@@ -63,7 +62,6 @@ export function Select<Id>({ children, className, active, disabled, value, onCha
       const delta = (new Date()).getTime() - focusTime.getTime();
 
       if (e.relatedTarget !== elemRef.current
-         && e.relatedTarget !== arrowRef.current
          && !optionsRef.find(elem => elem.current === e.relatedTarget)
       ) {
          if (delta > 100) {
@@ -148,10 +146,6 @@ export function Select<Id>({ children, className, active, disabled, value, onCha
       setOpen(open => !open)
    }, []);
 
-   const focus = useCallback(() => {
-      elemRef.current?.click()
-   }, []);
-
    useEffect(() => {
       if (open) {
          optionsRef.find(elem => elem.current!.textContent === labels.get(value))?.current!.focus()
@@ -160,27 +154,24 @@ export function Select<Id>({ children, className, active, disabled, value, onCha
 
    return <div ref={parentRef} className={"flex flex-col group grow max-w-full [&_*]:overflow-y-visible " + (className ?? "")}>
       <div className='relative flex flex-col grow [&>:first-child]:p-1 max-w-full'>
-         <div className={'flex flex-row grow border-2 max-w-full ' + style + ' rounded-r-none' + (open ? ' rounded-b-none' : '')}>
-            <button ref={elemRef}
-               onClick={toggle}
-               onFocus={onFocus}
-               onBlur={onBlur}
-               onKeyUp={onKey}
-               onKeyDown={preventDefault}
-               disabled={(disabled ?? false) || !(active ?? true)}
+         <button className={'flex flex-row grow border-2 max-w-full ' + style + ' rounded-r-none' + (open ? ' rounded-b-none' : '')}
+            ref={elemRef}
+            onClick={toggle}
+            onFocus={onFocus}
+            onBlur={onBlur}
+            onKeyUp={onKey}
+            onKeyDown={preventDefault}
+            disabled={(disabled ?? false) || !(active ?? true)}>
+            <div
                className={'grow max-w-full overflow-x-hidden'}>
                <div className={style + ' w-full max-w-full text-sm text-white text-center justify-center'} >
                   <div className='w-full text-ellipsis overflow-x-hidden line-clamp-1'>{labels.get(value)}</div>
                </div>
-            </button>
-            <button
-               tabIndex={-1}
-               ref={arrowRef}
-               onClick={focus}
-               className={'flex flex-col min-w-0 shrink-0 rounded-l-none ' + style + " shadow-none" + (open ? ' rounded-b-none' : '')}>
+            </div>
+            <div className={'flex flex-col min-w-0 shrink-0 rounded-l-none ' + style + " shadow-none" + (open ? ' rounded-b-none' : '')}>
                <Arrow width={20} height={15} className={'transition-all m-auto' + (open ? ' -rotate-90' : '')} />
-            </button>
-         </div>
+            </div>
+         </button>
          <div className='flex w-full h-0'>
             <div className='absolute w-full'>
                <div inert={!open} className={'relative z-50 overflow-x-hidden w-full duration-300 transition-opacity'
