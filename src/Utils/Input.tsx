@@ -91,7 +91,7 @@ export const Input = ({ inputClass, className, active, placeholder, pattern, typ
    }, [init, ref, value, active]);
 
    const onKeyUp = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
-      if (e.code === "Enter") {
+      if (e.key === "Enter") {
          onValidate?.(e.currentTarget.value);
       }
 
