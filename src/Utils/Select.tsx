@@ -114,11 +114,11 @@ export function Select<Id>({ children, className, active, disabled, value, onCha
    }, [open, optionsRef, preventDefault]);
 
    const options = useCallback((optionsRef?: RefObject<HTMLButtonElement | null>[]) =>
-      <div className={'flex flex-col p-1 border-x-2 border-b-2 ' + style + ' rounded-t-none focus:[&:hover>*:not(:hover)]:border-transparent '}>{
+      <div className={'options flex flex-col p-1 border-x-2 border-b-2 ' + style + ' rounded-t-none focus:[&:hover>*:not(:hover)]:border-transparent '}>{
          childs.map((child, index) =>
             <button key={child.props.id as string}
                ref={optionsRef?.[index]}
-               className='py-1 px-2 border-2 border-transparent text-ellipsis overflow-x-hidden line-clamp-1 hocus:border-msfs'
+               className='option py-1 px-2 border-2 border-transparent text-ellipsis overflow-x-hidden line-clamp-1 hocus:border-msfs'
                onClick={() => {
                   elemRef.current?.focus()
                   onChange(child.props.id)
@@ -133,7 +133,7 @@ export function Select<Id>({ children, className, active, disabled, value, onCha
                onKeyDown={preventDefault}
                onKeyUp={onKey}
             >
-               {child}
+               {child.props.children}
             </button>)
       }</div>, [style, childs, onFocus, onBlur, preventDefault, onKey, onChange]);
 
@@ -153,8 +153,8 @@ export function Select<Id>({ children, className, active, disabled, value, onCha
    }, [labels, open, optionsRef, value]);
 
    return <div ref={parentRef} className={"flex flex-col group grow max-w-full [&_*]:overflow-y-visible " + (className ?? "")}>
-      <div className='relative flex flex-col grow [&>:first-child]:p-1 max-w-full'>
-         <button className={'flex flex-row grow border-2 max-w-full ' + style + ' rounded-r-none' + (open ? ' rounded-b-none' : '')}
+      <div className='relative flex flex-col grow max-w-full'>
+         <button className={'option py-1 flex flex-row grow border-2 max-w-full ' + style + ' rounded-r-none' + (open ? ' rounded-b-none' : '')}
             ref={elemRef}
             onClick={toggle}
             onFocus={onFocus}
