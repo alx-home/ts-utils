@@ -114,11 +114,11 @@ export function Select<Id>({ children, className, active, disabled, value, onCha
    }, [open, optionsRef, preventDefault]);
 
    const options = useCallback((optionsRef?: RefObject<HTMLButtonElement | null>[]) =>
-      <div className={'flex flex-col p-2 border-x-2 border-b-2 ' + style + ' rounded-t-none '}>{
+      <div className={'flex flex-col p-1 border-x-2 border-b-2 ' + style + ' rounded-t-none focus:[&:hover>*:not(:hover)]:border-transparent '}>{
          childs.map((child, index) =>
             <button key={child.props.id as string}
                ref={optionsRef?.[index]}
-               className='my-1 py-1 px-2 border-2 border-transparent text-ellipsis overflow-x-hidden line-clamp-1 hocus:border-msfs'
+               className='py-1 px-2 border-2 border-transparent text-ellipsis overflow-x-hidden line-clamp-1 hocus:border-msfs'
                onClick={() => {
                   elemRef.current?.focus()
                   onChange(child.props.id)
