@@ -169,7 +169,7 @@ export function Select<Id>({ children, className, active, disabled, value, onCha
                </div>
             </div>
             <div className={'flex flex-col min-w-0 shrink-0 rounded-l-none ' + style + " shadow-none" + (open ? ' rounded-b-none' : '')}>
-               <Arrow width={20} height={15} className={'transition-all m-auto' + (open ? ' -rotate-90' : '')} />
+               <Arrow width={'1.25rem'} height={'1rem'} className={'transition-all m-auto' + (open ? ' -rotate-90' : '')} />
             </div>
          </button>
          <div className='flex w-full h-0'>
