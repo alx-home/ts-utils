@@ -175,8 +175,8 @@ export function Select<Id>({ children, close, className, active, disabled, value
                   <div className='w-full text-ellipsis overflow-x-hidden line-clamp-1'>{labels.get(value)}</div>
                </div>
             </div>
-            <div className={'flex flex-col min-w-0 shrink-0 rounded-l-none m-auto ' + style + " shadow-none" + (open ? ' rounded-b-none' : '')}>
-               <Arrow width={'1.25rem'} height={'1rem'} className={'transition-all m-auto' + (open ? ' -rotate-90' : '')} />
+            <div className={'flex flex-col min-w-0 shrink-0 w-5 h-4 rounded-l-none m-auto ' + style + " shadow-none" + (open ? ' rounded-b-none' : '')}>
+               <Arrow width={'100%'} height={'100%'} className={'transition-all m-auto' + (open ? ' -rotate-90' : '')} />
             </div>
          </button>
          <div className='flex w-full h-0'>
