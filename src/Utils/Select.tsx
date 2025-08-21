@@ -161,7 +161,7 @@ export function Select<Id>({ children, close, className, active, disabled, value
 
    return <div ref={parentRef} className={"flex flex-col group grow max-w-full [&_*]:overflow-y-visible " + (className ?? "")}>
       <div className='relative flex flex-col grow max-w-full'>
-         <button className={'option py-1 flex flex-row grow border-2 max-w-full ' + style + ' rounded-r-none' + (open ? ' rounded-b-none' : '')}
+         <button className={'option py-1 min-h-fit flex flex-row grow border-2 max-w-full ' + style + ' rounded-r-none' + (open ? ' rounded-b-none' : '')}
             ref={elemRef}
             onClick={toggle}
             onFocus={onFocus}
@@ -175,7 +175,7 @@ export function Select<Id>({ children, close, className, active, disabled, value
                   <div className='w-full text-ellipsis overflow-x-hidden line-clamp-1'>{labels.get(value)}</div>
                </div>
             </div>
-            <div className={'flex flex-col min-w-0 shrink-0 rounded-l-none ' + style + " shadow-none" + (open ? ' rounded-b-none' : '')}>
+            <div className={'flex flex-col min-w-0 shrink-0 rounded-l-none m-auto ' + style + " shadow-none" + (open ? ' rounded-b-none' : '')}>
                <Arrow width={'1.25rem'} height={'1rem'} className={'transition-all m-auto' + (open ? ' -rotate-90' : '')} />
             </div>
          </button>
