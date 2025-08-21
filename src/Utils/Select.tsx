@@ -33,10 +33,11 @@ export const Option = <Id,>({ children }: OptionProps<Id>) => {
    return children
 }
 
-export function Select<Id>({ children, className, active, disabled, value, onChange }: PropsWithChildren<{
+export function Select<Id>({ children, close, className, active, disabled, value, onChange }: PropsWithChildren<{
    className?: string,
    active: boolean,
    disabled?: boolean,
+   close?: boolean,
    value: Id,
    onChange: (_value: Id) => void
 }>) {
@@ -112,6 +113,12 @@ export function Select<Id>({ children, className, active, disabled, value, onCha
          }
       }
    }, [open, optionsRef, preventDefault]);
+
+   useEffect(() => {
+      if (close) {
+         setOpen(false)
+      }
+   }, [close])
 
    const options = useCallback((optionsRef?: RefObject<HTMLButtonElement | null>[]) =>
       <div className={'options flex flex-col p-1 border-x-2 border-b-2 ' + style + ' rounded-t-none focus:[&:hover>*:not(:hover)]:border-transparent '}>{
