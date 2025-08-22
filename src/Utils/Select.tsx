@@ -169,8 +169,7 @@ export function Select<Id>({ children, close, className, active, disabled, value
             onKeyUp={onKey}
             onKeyDown={preventDefault}
             disabled={(disabled ?? false) || !(active ?? true)}>
-            <div
-               className={'grow max-w-full overflow-x-hidden'}>
+            <div className={'grow max-w-full overflow-x-hidden pl-4 pr-2'}>
                <div className={style + ' w-full max-w-full text-sm text-white text-center justify-center'} >
                   <div className='w-full text-ellipsis overflow-x-hidden line-clamp-1'>{labels.get(value)}</div>
                </div>
@@ -188,7 +187,7 @@ export function Select<Id>({ children, close, className, active, disabled, value
             </div>
          </div>
          {/* Keeps min width to fit options */}
-         <div className={'block h-0 max-h-0 opacity-0 overflow-x-hidden'} inert={true}>
+         <div className={'block h-0 max-h-0 opacity-0 overflow-x-hidden pl-4 pr-2'} inert={true}>
             {options()}
          </div>
       </div>
