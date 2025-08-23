@@ -22,10 +22,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import { PropsWithChildren } from "react";
+import { memo, PropsWithChildren } from "react";
 import { Button } from "./Button";
 
-export const Tabs = <Tab extends string,>({ children, tabs, disabled, switchTab, activeTab, names, className }: PropsWithChildren<{
+const TabsComp = <Tab extends string,>({ children, tabs, disabled, switchTab, activeTab, names, className }: PropsWithChildren<{
    activeTab: string,
    tabs: Tab[],
    names?: Record<Tab, string>,
@@ -48,3 +48,5 @@ export const Tabs = <Tab extends string,>({ children, tabs, disabled, switchTab,
       </div>
    </div>
 }
+
+export const Tabs = memo(TabsComp)
