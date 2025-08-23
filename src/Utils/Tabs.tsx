@@ -49,4 +49,4 @@ const TabsComp = <Tab extends string,>({ children, tabs, disabled, switchTab, ac
    </div>
 }
 
-export const Tabs = memo(TabsComp)
+export const Tabs = memo(TabsComp) as typeof TabsComp
