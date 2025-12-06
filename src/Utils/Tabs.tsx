@@ -34,7 +34,7 @@ const TabsComp = <Tab extends string,>({ children, tabs, disabled, switchTab, ac
    className?: string
 }>) => {
    return <div className='flex flex-col [&>:not(:first-child)]:ml-2 shadow-sm'>
-      <div className='flex flex-row justify-start h-[29px] min-h-[29px]'>
+      <div className='flex flex-row justify-start h-7 min-h-7'>
          <div className='flex flex-row shrink!important [&>:not(:first-child)]:ml-1'>
             {tabs.map(tab =>
                <Button active={!disabled} key={tab} disabled={(activeTab === tab) || disabled} className='px-2'
