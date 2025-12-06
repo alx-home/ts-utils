@@ -45,6 +45,7 @@ type SlidderProps = PropsWithChildren<{
    className?: string,
    reset?: boolean,
    value: number,
+   oneShot?: boolean,
    defaultValue?: number,
    onChange: (_value: number) => void,
    bounds?: {
@@ -62,7 +63,7 @@ type SlidderProps = PropsWithChildren<{
 
 export type SliderRef = Dispatch<SetStateAction<boolean>>;
 
-const SliderImpl = ({ className, active, range, reset, defaultValue, onChange, value, bounds, children, hideTrack, trackCallback, passiveTrack }: SlidderProps,
+const SliderImpl = ({ className, active, range, reset, defaultValue, onChange, value, bounds, children, hideTrack, trackCallback, passiveTrack, oneShot }: SlidderProps,
    slidderRef: ForwardedRef<SliderRef | null>) => {
    const trackRef = useRef<HTMLButtonElement>(null);
    const cursorRef = useRef<HTMLButtonElement>(null);
@@ -74,7 +75,7 @@ const SliderImpl = ({ className, active, range, reset, defaultValue, onChange, v
    const mousePosition = useMouseMove(scrolling);
    const mouseUp = useMouseRelease(scrolling);
 
-   useImperativeHandle<SliderRef, SliderRef>(slidderRef, () => setScrolling);
+   useImperativeHandle<SliderRef, SliderRef>(slidderRef, () => oneShot ? () => { } : setScrolling, [oneShot]);
 
    const timeout = useRef<NodeJS.Timeout>(undefined)
    const [lastUpdate, setLastUpdate] = useState(Date.now())
@@ -119,20 +120,34 @@ const SliderImpl = ({ className, active, range, reset, defaultValue, onChange, v
       }
    }, [lastUpdate, mousePosition, notify]);
 
-   const onClick = useCallback((_event: MouseEvent<HTMLButtonElement>) => {
+   const onClick = useCallback((event: MouseEvent<HTMLButtonElement>) => {
       if (trackCallback) {
          const bounding = trackRef.current!.getBoundingClientRect();
          const cursorBoundings = cursorRef.current!.getBoundingClientRect();
 
-         trackCallback((_event.clientX - bounding.left - (cursorBoundings.width / 2)) * (range.max - range.min) / (bounding.width - cursorBoundings.width) + range.min)
+         trackCallback((event.clientX - bounding.left - (cursorBoundings.width / 2)) * (range.max - range.min) / (bounding.width - cursorBoundings.width) + range.min)
+      } else if (oneShot ?? false) {
+         const bounding = trackRef.current!.getBoundingClientRect();
+         const cursorBoundings = cursorRef.current!.getBoundingClientRect();
+
+         notify((event.clientX - bounding.left - (cursorBoundings.width / 2)) / (bounding.width - cursorBoundings.width))
       } else {
          setScrolling(true);
       }
-   }, [range.max, range.min, trackCallback]);
+   }, [trackCallback, oneShot, range.max, range.min, notify]);
 
-   const onMouseDown = useCallback(() => {
-      setScrolling(true);
-   }, []);
+   const onMouseDown = useCallback((event: MouseEvent<HTMLButtonElement>) => {
+      if ((oneShot ?? false)) {
+         const bounding = trackRef.current!.getBoundingClientRect();
+         const cursorBoundings = cursorRef.current!.getBoundingClientRect();
+
+         console.log("Slider one shot:", (event.clientX - bounding.left - (cursorBoundings.width / 2)) / (bounding.width - cursorBoundings.width));
+
+         notify((event.clientX - bounding.left - (cursorBoundings.width / 2)) / (bounding.width - cursorBoundings.width))
+      } else {
+         setScrolling(true);
+      }
+   }, [notify, oneShot]);
 
    const onWheel = useCallback((event: WheelEvent<HTMLButtonElement>) => {
       if (event.deltaY !== 0) {
