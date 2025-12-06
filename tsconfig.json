@@ -27,7 +27,6 @@ SOFTWARE.
    "references": [{ "path": "./tsconfig.build.json" }],
    "compilerOptions": {
       "outDir": "../../build/packages/ts-utils/ts-dist",
-      "baseUrl": ".",
       "rootDir": ".",
       "paths": {
          "@types": ["./types/index.d.ts"],

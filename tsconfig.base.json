@@ -40,7 +40,6 @@ SOFTWARE.
       /* --- Bundler mode */
       "allowJs": false,
       "rootDir": ".",
-      "baseUrl": ".",
       "skipLibCheck": true,
       /* Linting */
       "strict": true,
