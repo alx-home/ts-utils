@@ -141,8 +141,6 @@ const SliderImpl = ({ className, active, range, reset, defaultValue, onChange, v
          const bounding = trackRef.current!.getBoundingClientRect();
          const cursorBoundings = cursorRef.current!.getBoundingClientRect();
 
-         console.log("Slider one shot:", (event.clientX - bounding.left - (cursorBoundings.width / 2)) / (bounding.width - cursorBoundings.width));
-
          notify((event.clientX - bounding.left - (cursorBoundings.width / 2)) / (bounding.width - cursorBoundings.width))
       } else {
          setScrolling(true);
