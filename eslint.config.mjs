@@ -71,5 +71,8 @@ export default [...fixupConfigRules(compat.extends(
             argsIgnorePattern: "^_",
         }],
         "react/react-in-jsx-scope": "off",
+        'react-hooks/refs': "off",
+        'react-hooks/set-state-in-effect': "off",
+        'react-hooks/purity': "off",
     },
 }];

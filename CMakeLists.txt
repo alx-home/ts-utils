@@ -20,7 +20,7 @@ list(APPEND SOURCES
    ${CMAKE_CURRENT_SOURCE_DIR}/eslint.config.mjs
 )
 
-find_program(NPM npm)
+find_program(NPM npm REQUIRED)
 
 add_custom_command(
    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/dist/main.js

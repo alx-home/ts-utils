@@ -23,8 +23,8 @@ SOFTWARE.
 */
 
 import { build } from "vite";
-import path from "path";
-import { fileURLToPath } from "url";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 import { LibConfig, lint } from '@build';
 
@@ -39,11 +39,10 @@ const Config = {
       entries: [
          path.resolve(__dirname, './src/main.tsx'),
       ],
-   }), ...{
-      define: {
-         __WEB_BROWSER_TEST__: webBrowserTest
-      },
-   }
+   }), 
+   define: {
+      __WEB_BROWSER_TEST__: webBrowserTest
+   },
 };
 
 await lint(".");

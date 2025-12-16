@@ -26,7 +26,7 @@ SOFTWARE.
    "extends": "./tsconfig.base.json",
    "compilerOptions": {
       "paths": {
-         "@build": ["build_template.ts"]
+         "@build": ["./build_template.ts"]
       }
    },
    "files": ["tailwind.config.ts", "build.ts", "build_template.ts"]

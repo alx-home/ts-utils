@@ -31,6 +31,7 @@ import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
 import { config } from "dotenv";
 import tsconfigPaths, { PluginOptions } from 'vite-tsconfig-paths';
 import { ESLint } from 'eslint';
+import {MinifyOptions} from "terser";
 
 let dev = false;
 process.argv.forEach(function (val) {
@@ -58,13 +59,12 @@ const default_output_dir = process.env.OUTPUT_DIR;
 
 type RollupOptions = Exclude<BuildEnvironmentOptions['rollupOptions'], undefined>;
 
-export const LibConfig = ({ name, with_tailwindcss, with_react, rollupOptions, entries, output_dir, empty_out, alias, plugins, minify, sourcemap, target, define }: {
+export const LibConfig = ({ name, with_tailwindcss, with_react, rollupOptions, entries, output_dir, empty_out, plugins, minify, sourcemap, target, define }: {
    name: string,
    output_dir?: string,
    entries: string[] | LibraryOptions,
    empty_out?: boolean,
    rollupOptions?: RollupOptions,
-   alias?: AliasOptions,
    sourcemap?: boolean
    plugins?: Plugin<unknown>[],
    minify?: boolean,
@@ -85,11 +85,13 @@ export const LibConfig = ({ name, with_tailwindcss, with_react, rollupOptions, e
          ...(Array.isArray(entries) ? {} : entries)
       },
       minify: minify ?? (process.env.BUILD_TYPE === 'development' ? false : "esbuild"),
-      terserOptions: {
-         compress: {
-            drop_console: process.env.BUILD_TYPE !== 'development'
-         }
-      },
+      ...((typeof minify === 'string' && minify === 'terser') ? {
+         terserOptions: {
+            compress: {
+               drop_console: process.env.BUILD_TYPE !== 'development'
+            }
+         } as MinifyOptions
+      } : {}),
       rollupOptions: {
          external: ['react', 'react-dom', 'styled-components'],
          output: {
@@ -109,7 +111,6 @@ export const LibConfig = ({ name, with_tailwindcss, with_react, rollupOptions, e
       emptyOutDir: empty_out ?? true,
    },
    resolve: {
-      alias: alias,
       extensions: [
          '.js',
          '.json',
