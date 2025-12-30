@@ -31,7 +31,7 @@ import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
 import { config } from "dotenv";
 import tsconfigPaths, { PluginOptions } from 'vite-tsconfig-paths';
 import { ESLint } from 'eslint';
-import {MinifyOptions} from "terser";
+import { MinifyOptions } from "terser";
 
 let dev = false;
 process.argv.forEach(function (val) {
@@ -136,7 +136,7 @@ export const LibConfig = ({ name, with_tailwindcss, with_react, rollupOptions, e
    }
 });
 
-export const AppConfig = ({ with_react, with_tailwindcss, output_dir, empty_out, plugins, minify, alias, tsconfig, define, target, rollup_options }: {
+export const AppConfig = ({ with_react, assetsInclude, with_tailwindcss, output_dir, empty_out, plugins, minify, alias, tsconfig, define, target, rollup_options }: {
    output_dir?: string,
    empty_out?: boolean,
    plugins?: Plugin<unknown>[],
@@ -147,7 +147,8 @@ export const AppConfig = ({ with_react, with_tailwindcss, output_dir, empty_out,
    tsconfig?: PluginOptions,
    with_react?: boolean,
    rollup_options?: RollupOptions,
-   with_tailwindcss?: boolean
+   with_tailwindcss?: boolean,
+   assetsInclude?: string[]
 }): UserConfig => ({
    mode: process.env.BUILD_TYPE,
    define: {
@@ -186,6 +187,7 @@ export const AppConfig = ({ with_react, with_tailwindcss, output_dir, empty_out,
       tsconfigPaths(tsconfig),
       ...(plugins ?? [])
    ] as PluginOption[],
+   assetsInclude: assetsInclude,
    css: {
       postcss: {
          plugins: [

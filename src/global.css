@@ -31,9 +31,6 @@ SOFTWARE.
    src: url(fonts/Inter-Bold.ttf);
 }
 
-*,
-:before,
-:after,
 :root {
    font-family: Inter-Bold, sans-serif;
 
