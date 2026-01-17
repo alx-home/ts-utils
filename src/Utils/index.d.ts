@@ -9,3 +9,4 @@ export * from "./Scroll";
 export { Select, Option as SelectOption } from "./Select";
 export * from "./Slider";
 export * from "./Tabs";
+export * from "./useBatch";
