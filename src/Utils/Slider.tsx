@@ -39,6 +39,7 @@ import {
    useImperativeHandle,
    WheelEvent
 } from 'react';
+import { useEvent } from 'react-use-event-hook';
 
 type SlidderProps = PropsWithChildren<{
    active?: boolean,
@@ -120,6 +121,8 @@ const SliderImpl = ({ className, active, range, reset, defaultValue, onChange, v
       }
    }, [lastUpdate, mousePosition, notify]);
 
+
+
    const onClick = useCallback((event: MouseEvent<HTMLButtonElement>) => {
       if (trackCallback) {
          const bounding = trackRef.current!.getBoundingClientRect();
@@ -147,11 +150,26 @@ const SliderImpl = ({ className, active, range, reset, defaultValue, onChange, v
       }
    }, [notify, oneShot]);
 
-   const onWheel = useCallback((event: WheelEvent<HTMLButtonElement>) => {
+
+   const onWheel = useEvent((event: WheelEvent) => {
+      event.preventDefault();
+
       if (event.deltaY !== 0) {
          notify((value - range.min) / (range.max - range.min) + (event.deltaY < 0 ? 0.001 : -0.001))
       }
-   }, [notify, range.max, range.min, value]);
+   });
+   useEffect(() => {
+      const cursor = cursorRef.current!;
+      const track = trackRef.current!;
+
+      cursor.addEventListener("wheel", onWheel as unknown as EventListener, { passive: false });
+      track.addEventListener("wheel", onWheel as unknown as EventListener, { passive: false });
+
+      return () => {
+         cursor.removeEventListener("wheel", onWheel as unknown as EventListener)
+         track.removeEventListener("wheel", onWheel as unknown as EventListener)
+      };
+   }, [onWheel]);
 
    return <div className={"flex flex-row grow select-none " + (className ?? "")}>
       {children}
@@ -172,7 +190,6 @@ const SliderImpl = ({ className, active, range, reset, defaultValue, onChange, v
          }
             style={{ marginLeft: marginLeft }}
             onMouseDown={onMouseDown}
-            onWheel={onWheel}
             ref={cursorRef}
          >
          </button>
@@ -189,7 +206,6 @@ const SliderImpl = ({ className, active, range, reset, defaultValue, onChange, v
                tabIndex={-1}
                ref={trackRef}
                onMouseDown={onClick}
-               onWheel={onWheel}
             >
                <div className={'flex flex-row grow transition-all duration-100 bg-gray-700 shadow-md h-[8px] m-auto'
                   + ' rounded-sm border-2 border-gray-900'
