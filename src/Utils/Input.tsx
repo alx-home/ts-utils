@@ -22,13 +22,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import { HTMLInputTypeAttribute, useState, useEffect, useRef, useMemo, RefObject, useCallback, KeyboardEvent, ChangeEvent, PropsWithChildren, Children, isValidElement } from 'react';
+import { HTMLInputTypeAttribute, useState, useEffect, useRef, useMemo, RefObject, useCallback, KeyboardEvent, ChangeEvent, PropsWithChildren, Children, isValidElement, memo } from 'react';
 
 export const EndSlot = ({ children }: PropsWithChildren) => {
    return children
 }
 
-export const Input = ({ inputClass, className, active, placeholder, pattern, type, inputMode, validate, value, defaultValue, reset, onChange, onValidate, setIsValid, ref: parentRef, children, reload, onKeyDown, onKeyUp: onKeyUpP }: PropsWithChildren<{
+export const Input = memo(function Input({ inputClass, className, active, placeholder, pattern, type, inputMode, validate, value, defaultValue, reset, onChange, onValidate, setIsValid, ref: parentRef, children, reload, onKeyDown, onKeyUp: onKeyUpP }: PropsWithChildren<{
    active: boolean,
    className?: string,
    inputClass?: string,
@@ -47,7 +47,7 @@ export const Input = ({ inputClass, className, active, placeholder, pattern, typ
    ref?: RefObject<HTMLInputElement | null>,
    onKeyDown?: (_event: KeyboardEvent<HTMLInputElement>) => void
    onKeyUp?: (_event: KeyboardEvent<HTMLInputElement>) => void
-}>) => {
+}>) {
    const [valid, setValid] = useState(true);
    const endSlots = useMemo(() => Children.toArray(children).filter(child => isValidElement(child) && child.type === EndSlot), [children]);
    const _setValid = useCallback((value: boolean) => {
@@ -119,4 +119,4 @@ export const Input = ({ inputClass, className, active, placeholder, pattern, typ
       </div>
       {endSlots}
    </div>;
-};
+});
