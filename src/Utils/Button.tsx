@@ -22,15 +22,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import { PropsWithChildren, MouseEventHandler, useRef } from 'react';
+import { PropsWithChildren, MouseEventHandler, useRef, memo } from 'react';
 
-export const Button = ({ children, onClick, className, active, disabled, title }: PropsWithChildren<{
+export const Button = memo(function Button({ children, onClick, className, active, disabled, title }: PropsWithChildren<{
    onClick?: MouseEventHandler<HTMLButtonElement>,
    className?: string,
    active: boolean,
    disabled?: boolean,
    title?: string
-}>) => {
+}>) {
    const elemRef = useRef<HTMLButtonElement | null>(null);
 
 
@@ -47,4 +47,4 @@ export const Button = ({ children, onClick, className, active, disabled, title }
          {children}
       </div>
    </button>;
-};
+});
