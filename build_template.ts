@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import { AliasOptions, BuildEnvironmentOptions, LibraryOptions, Plugin, PluginOption, UserConfig } from "vite";
+import { AliasOptions, BuildEnvironmentOptions, LibraryOptions, Plugin, PluginOption, UserConfig, transformWithEsbuild } from "vite";
 import react from '@vitejs/plugin-react'
 import tailwindcss from "tailwindcss";
 import autoprefixer from "autoprefixer";
@@ -57,6 +57,20 @@ const webBrowserTest = process.env.WEB_BROWSER_TEST;
 const default_output_dir = process.env.OUTPUT_DIR;
 
 type RollupOptions = Exclude<BuildEnvironmentOptions['rollupOptions'], undefined>;
+
+const svgReactJsxTransform = (): Plugin => ({
+   name: 'svg-react-jsx-transform',
+   async transform(code, id) {
+      if (!id.includes('.svg?react')) {
+         return null;
+      }
+
+      return transformWithEsbuild(code, id, {
+         loader: 'jsx',
+         jsx: 'automatic',
+      });
+   },
+});
 
 export const LibConfig = ({ name, with_tailwindcss, with_react, rollupOptions, entries, output_dir, empty_out, plugins, minify, sourcemap, target, define }: {
    name: string,
@@ -120,8 +134,11 @@ export const LibConfig = ({ name, with_tailwindcss, with_react, rollupOptions, e
       ],
    },
    plugins: [
+      svgr({
+         include: '**/*.svg?react',
+      }),
+      svgReactJsxTransform(),
       (with_react ?? true) ? react() : [],
-      svgr(),
       cssInjectedByJsPlugin(),
       ...(plugins ?? [])
    ] as PluginOption[],
@@ -180,9 +197,12 @@ export const AppConfig = ({ with_react, assetsInclude, with_tailwindcss, output_
       ],
    },
    plugins: [
+      svgr({
+         include: '**/*.svg?react',
+      }),
+      svgReactJsxTransform(),
       (with_react ?? true) ? react() : [],
       cssInjectedByJsPlugin(),
-      svgr(),
       ...(plugins ?? [])
    ] as PluginOption[],
    assetsInclude: assetsInclude,
