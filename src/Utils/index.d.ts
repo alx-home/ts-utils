@@ -2,6 +2,7 @@ export * from "./AnimatedOrder";
 export * from "./Button";
 export * from "./CheckBox";
 export * from "./Draggable";
+export * from "./Delayed";
 export * from "./DualSlider";
 export * from "./Input";
 export * from "./Mounted";
