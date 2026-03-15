@@ -22,15 +22,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import { AliasOptions, BuildEnvironmentOptions, LibraryOptions, Plugin, PluginOption, UserConfig, transformWithEsbuild } from "vite";
+import { AliasOptions, BuildEnvironmentOptions, LibraryOptions, Plugin, PluginOption, UserConfig } from "vite";
 import react from '@vitejs/plugin-react'
 import tailwindcss from "tailwindcss";
 import autoprefixer from "autoprefixer";
-import svgr from 'vite-plugin-svgr';
 import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
 import { config } from "dotenv";
 import { ESLint } from 'eslint';
 import { MinifyOptions } from "terser";
+import { readFile } from "node:fs/promises";
+import { transform } from '@svgr/core';
+import  jsx from '@svgr/plugin-jsx';
+import { transform as esbuildTransform } from 'esbuild';
 
 let dev = false;
 process.argv.forEach(function (val) {
@@ -58,17 +61,37 @@ const default_output_dir = process.env.OUTPUT_DIR;
 
 type RollupOptions = Exclude<BuildEnvironmentOptions['rollupOptions'], undefined>;
 
-const svgReactJsxTransform = (): Plugin => ({
-   name: 'svg-react-jsx-transform',
-   async transform(code, id) {
-      if (!id.includes('.svg?react')) {
+const svgReactComponentPlugin = (): Plugin => ({
+   name: 'svg-react-component-plugin',
+   enforce: 'pre',
+   async load(id) {
+      const [filePath, query = ''] = id.split('?', 2);
+      const isSvgReactRequest = filePath.endsWith('.svg') && query.split('&').includes('react');
+
+      if (!isSvgReactRequest) {
          return null;
       }
 
-      return transformWithEsbuild(code, id, {
-         loader: 'jsx',
-         jsx: 'automatic',
+      const svgCode = await readFile(filePath, 'utf8');
+
+      const componentCode = await transform(svgCode, undefined, {
+         filePath,
+         caller: {
+            defaultPlugins: [jsx],
+         },
       });
+
+      const result = await esbuildTransform(componentCode, {
+         loader: 'jsx',
+         format: 'esm',
+         jsx: 'automatic',
+         sourcemap: false,
+      });
+
+      return {
+         code: result.code,
+         map: null,
+      };
    },
 });
 
@@ -134,10 +157,7 @@ export const LibConfig = ({ name, with_tailwindcss, with_react, rollupOptions, e
       ],
    },
    plugins: [
-      svgr({
-         include: '**/*.svg?react',
-      }),
-      svgReactJsxTransform(),
+      svgReactComponentPlugin(),
       (with_react ?? true) ? react() : [],
       cssInjectedByJsPlugin(),
       ...(plugins ?? [])
@@ -197,10 +217,7 @@ export const AppConfig = ({ with_react, assetsInclude, with_tailwindcss, output_
       ],
    },
    plugins: [
-      svgr({
-         include: '**/*.svg?react',
-      }),
-      svgReactJsxTransform(),
+      svgReactComponentPlugin(),
       (with_react ?? true) ? react() : [],
       cssInjectedByJsPlugin(),
       ...(plugins ?? [])
