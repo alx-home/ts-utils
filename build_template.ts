@@ -147,6 +147,7 @@ export const LibConfig = ({ name, with_tailwindcss, with_react, rollupOptions, e
       emptyOutDir: empty_out ?? true,
    },
    resolve: {
+      dedupe: ['react', 'react-dom'],
       tsconfigPaths: true,
       extensions: [
          '.js',
@@ -207,6 +208,7 @@ export const AppConfig = ({ with_react, assetsInclude, with_tailwindcss, output_
    },
    resolve: {
       alias: alias,
+      dedupe: ['react', 'react-dom'],
       tsconfigPaths: true,
       extensions: [
          '.js',
