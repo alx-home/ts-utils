@@ -29,7 +29,6 @@ import autoprefixer from "autoprefixer";
 import svgr from 'vite-plugin-svgr';
 import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
 import { config } from "dotenv";
-import tsconfigPaths, { PluginOptions } from 'vite-tsconfig-paths';
 import { ESLint } from 'eslint';
 import { MinifyOptions } from "terser";
 
@@ -111,6 +110,7 @@ export const LibConfig = ({ name, with_tailwindcss, with_react, rollupOptions, e
       emptyOutDir: empty_out ?? true,
    },
    resolve: {
+      tsconfigPaths: true,
       extensions: [
          '.js',
          '.json',
@@ -123,7 +123,6 @@ export const LibConfig = ({ name, with_tailwindcss, with_react, rollupOptions, e
       (with_react ?? true) ? react() : [],
       svgr(),
       cssInjectedByJsPlugin(),
-      tsconfigPaths(),
       ...(plugins ?? [])
    ] as PluginOption[],
    css: {
@@ -136,7 +135,7 @@ export const LibConfig = ({ name, with_tailwindcss, with_react, rollupOptions, e
    }
 });
 
-export const AppConfig = ({ with_react, assetsInclude, with_tailwindcss, output_dir, empty_out, plugins, minify, alias, tsconfig, define, target, rollup_options }: {
+export const AppConfig = ({ with_react, assetsInclude, with_tailwindcss, output_dir, empty_out, plugins, minify, alias, define, target, rollup_options }: {
    output_dir?: string,
    empty_out?: boolean,
    plugins?: Plugin<unknown>[],
@@ -144,7 +143,6 @@ export const AppConfig = ({ with_react, assetsInclude, with_tailwindcss, output_
    define?: Record<string, unknown>,
    minify?: boolean | 'terser' | 'esbuild',
    target?: string | false | string[],
-   tsconfig?: PluginOptions,
    with_react?: boolean,
    rollup_options?: RollupOptions,
    with_tailwindcss?: boolean,
@@ -172,6 +170,7 @@ export const AppConfig = ({ with_react, assetsInclude, with_tailwindcss, output_
    },
    resolve: {
       alias: alias,
+      tsconfigPaths: true,
       extensions: [
          '.js',
          '.json',
@@ -184,7 +183,6 @@ export const AppConfig = ({ with_react, assetsInclude, with_tailwindcss, output_
       (with_react ?? true) ? react() : [],
       cssInjectedByJsPlugin(),
       svgr(),
-      tsconfigPaths(tsconfig),
       ...(plugins ?? [])
    ] as PluginOption[],
    assetsInclude: assetsInclude,
