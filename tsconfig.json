@@ -26,7 +26,7 @@ SOFTWARE.
    "extends": "./tsconfig.base.json",
    "references": [{ "path": "./tsconfig.build.json" }],
    "compilerOptions": {
-      "outDir": "../../build/packages/ts-utils/ts-dist",
+      "outDir": "../../build/submodules/ts-utils/ts-dist",
       "rootDir": ".",
       "paths": {
          "@types": ["./types/index.d.ts"],
