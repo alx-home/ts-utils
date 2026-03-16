@@ -33,7 +33,7 @@ const TabsComp = <Tab extends string,>({ children, tabs, disabled, switchTab, ac
    disabled?: boolean,
    className?: string
 }>) => {
-   return <div className='flex flex-col [&>:not(:first-child)]:ml-2 shadow-sm'>
+   return <div className='flex flex-col [&>:not(:first-child)]:ml-2'>
       <div className='flex flex-row justify-start h-7 min-h-7'>
          <div className='flex flex-row shrink!important [&>:not(:first-child)]:ml-1'>
             {tabs.map(tab =>
