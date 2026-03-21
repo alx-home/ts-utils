@@ -34,8 +34,13 @@ export const Button = memo(function Button({ children, onClick, className, activ
    const elemRef = useRef<HTMLButtonElement | null>(null);
 
 
-   return <button className={"group grow bg-gray-700 p-1 shadow-md flex rounded-sm border-2 border-gray-900 overflow-hidden"
-      + ((!(disabled ?? false)) ? ' hocus:bg-gray-800 hocus:drop-shadow-xl hocus:border-msfs has-[:focus]:border-msfs has-[:hover]:border-msfs cursor-pointer' : ' opacity-30')}
+   return <button className={
+      "group grow bg-gray-700 p-1 shadow-md flex rounded-sm border-2"
+      + " border-gray-900 overflow-hidden"
+      + ((!(disabled ?? false))
+         ? ' hocus:bg-gray-800 hocus:drop-shadow-xl'
+         + ' hocus:border-msfs has-[:focus]:border-msfs has-[:hover]:border-msfs cursor-pointer'
+         : ' opacity-30')}
       title={title}
       ref={elemRef}
       onClick={e => {
