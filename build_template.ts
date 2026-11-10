@@ -95,7 +95,7 @@ const svgReactComponentPlugin = (): Plugin => ({
    },
 });
 
-export const LibConfig = ({ name, with_tailwindcss, with_react, rollupOptions, entries, output_dir, empty_out, plugins, minify, sourcemap, target, define }: {
+export const LibConfig = ({ name: _name, with_tailwindcss: _with_tailwindcss, with_react: _with_react, rollupOptions: _rollupOptions, entries: _entries, output_dir: _output_dir, empty_out: _empty_out, plugins: _plugins, minify: _minify, sourcemap: _sourcemap, target: _target, define: _define }: {
    name: string,
    output_dir?: string,
    entries: string[] | LibraryOptions,
@@ -112,16 +112,16 @@ export const LibConfig = ({ name, with_tailwindcss, with_react, rollupOptions, e
    mode: process.env.BUILD_TYPE,
    define: {
       __WEB_BROWSER_TEST__: webBrowserTest,
-      ...define
+      ..._define
    },
    build: {
       lib: {
-         name: name,
-         entry: (Array.isArray(entries) ? entries : []),
-         ...(Array.isArray(entries) ? {} : entries)
+         name: _name,
+         entry: (Array.isArray(_entries) ? _entries : []),
+         ...(Array.isArray(_entries) ? {} : _entries)
       },
-      minify: minify ?? (process.env.BUILD_TYPE === 'development' ? false : "esbuild"),
-      ...((typeof minify === 'string' && minify === 'terser') ? {
+      minify: _minify ?? (process.env.BUILD_TYPE === 'development' ? false : "esbuild"),
+      ...((typeof _minify === 'string' && _minify === 'terser') ? {
          terserOptions: {
             compress: {
                drop_console: process.env.BUILD_TYPE !== 'development'
@@ -138,13 +138,13 @@ export const LibConfig = ({ name, with_tailwindcss, with_react, rollupOptions, e
                'styled-components': 'styled',
             },
          },
-         ...rollupOptions
+         ..._rollupOptions
       },
-      target: target,
-      outDir: output_dir ?? default_output_dir,
+      target: _target,
+      outDir: _output_dir ?? default_output_dir,
       ssr: false,
-      sourcemap: sourcemap ?? process.env.BUILD_TYPE === 'development',
-      emptyOutDir: empty_out ?? true,
+      sourcemap: _sourcemap ?? process.env.BUILD_TYPE === 'development',
+      emptyOutDir: _empty_out ?? true,
    },
    resolve: {
       dedupe: ['react', 'react-dom'],
@@ -159,21 +159,21 @@ export const LibConfig = ({ name, with_tailwindcss, with_react, rollupOptions, e
    },
    plugins: [
       svgReactComponentPlugin(),
-      (with_react ?? true) ? react() : [],
+      (_with_react ?? true) ? react() : [],
       cssInjectedByJsPlugin(),
-      ...(plugins ?? [])
+      ...(_plugins ?? [])
    ] as PluginOption[],
    css: {
       postcss: {
          plugins: [
             autoprefixer,
-            ...((with_tailwindcss ?? true) ? [tailwindcss] : [])
+            ...((_with_tailwindcss ?? true) ? [tailwindcss] : [])
          ]
       },
    }
 });
 
-export const AppConfig = ({ with_react, assetsInclude, with_tailwindcss, output_dir, empty_out, plugins, minify, alias, define, target, rollup_options }: {
+export const AppConfig = ({ with_react: _with_react, assetsInclude: _assetsInclude, with_tailwindcss: _with_tailwindcss, output_dir: _output_dir, empty_out: _empty_out, plugins: _plugins, minify: _minify, alias: _alias, define: _define, target: _target, rollup_options: _rollup_options }: {
    output_dir?: string,
    empty_out?: boolean,
    plugins?: Plugin<unknown>[],
@@ -189,25 +189,25 @@ export const AppConfig = ({ with_react, assetsInclude, with_tailwindcss, output_
    mode: process.env.BUILD_TYPE,
    define: {
       __WEB_BROWSER_TEST__: webBrowserTest,
-      ...define
+      ..._define
    },
    build: {
       lib: false,
-      minify: minify ?? (process.env.BUILD_TYPE === 'development' ? false : "esbuild"),
+      minify: _minify ?? (process.env.BUILD_TYPE === 'development' ? false : "esbuild"),
       rollupOptions: {
          output: {
             manualChunks: undefined,
          },
-         ...rollup_options
+         ..._rollup_options
       },
-      outDir: output_dir ?? default_output_dir,
+      outDir: _output_dir ?? default_output_dir,
       ssr: false,
       sourcemap: process.env.BUILD_TYPE === 'development',
-      emptyOutDir: empty_out ?? true,
-      target: target,
+      emptyOutDir: _empty_out ?? true,
+      target: _target,
    },
    resolve: {
-      alias: alias,
+      alias: _alias,
       dedupe: ['react', 'react-dom'],
       tsconfigPaths: true,
       extensions: [
@@ -220,24 +220,24 @@ export const AppConfig = ({ with_react, assetsInclude, with_tailwindcss, output_
    },
    plugins: [
       svgReactComponentPlugin(),
-      (with_react ?? true) ? react() : [],
+      (_with_react ?? true) ? react() : [],
       cssInjectedByJsPlugin(),
-      ...(plugins ?? [])
+      ...(_plugins ?? [])
    ] as PluginOption[],
-   assetsInclude: assetsInclude,
+   assetsInclude: _assetsInclude,
    css: {
       postcss: {
          plugins: [
             autoprefixer,
-            ...((with_tailwindcss ?? true) ? [tailwindcss] : [])
+            ...((_with_tailwindcss ?? true) ? [tailwindcss] : [])
          ]
       },
    }
 });
 
-export const lint = async (path: string) => {
+export const lint = async (_path: string) => {
    const cwd = process.cwd();
-   process.chdir(path)
+   process.chdir(_path)
    const eslint = new ESLint({
       globInputPaths: false
    });
